@@ -1,4 +1,4 @@
-# Mach dein Glück! – Lottery Web Application
+# Lottery Web Application
 
 A full-stack web application for a fictional state lottery, built as a team project in the Software Engineering lab (Softwaretechnologie-Praktikum) at TU Dresden. Users can play the 6-out-of-49 number lottery and a football pools game (Fußballtoto) based on Bundesliga matches, manage an account balance, and join betting communities. Administrators get statistics and management tools. The interface is in German.
 
