@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <title></title>
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+<div class="my-community-header">
+    <h1 class = "my-community-name" th:text="${communityName}">Gemeinschaftsname</h1>
+</div>
+
+<div class="community">
+    <div class="community-overview">
+        <table>
+            <thead>
+            <tr>
+                <th>Spiel</th>
+                <th>Eingereicht</th>
+                <th>Frist</th>
+                <th>Teilnehmer</th>
+                <th>mindest Wetteinsatz (€)</th>
+                <th>mein Einsatz</th>
+                <th>WettInformationen</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${communityBettingInfo.gameName}">Game Name</td>
+                <td th:text="${communityBettingInfo.submittedDate}">Submitted Date</td>
+                <td th:text="${communityBettingInfo.drawDate}">Draw Date</td>
+                <td th:text="${communityBettingInfo.participants}">0</td>
+                <td th:text="${communityBettingInfo.basePrice} + €" >0.0</td>
+                <td th:text="${communityBettingInfo.userBets.get(currentUserName)} + €">mein Einsatz</td>
+                <td  style="white-space: pre-line; word-wrap: break-word;" th:text="${communityBettingInfo.getInfo()}"></td>
+            </tr>
+            </tbody>
+        </table>
+        </br>
+        <form action="/addUserBetAmountToCommunityBet" method="POST">
+            <label for="betAmount" th:text="'Einsatz hinzufuegen: (Vielfaches des Grundeinsatzes): '"></label>
+            <select id="betAmount" name="betAmount">
+                <option th:each="i : ${#numbers.sequence(1, 20)}"
+                        th:value="${i * communityBettingInfo.basePrice}"
+                        th:text="${i * communityBettingInfo.basePrice}">50</option>
+            </select>
+            <input type="hidden" name="bettingSlipId" th:value="${bettingSlipId}">
+            <input type="hidden" name="communityName" th:value="${communityName}">
+            <input type="hidden" name="userName" th:value="${currentUserName}">
+            <button type="submit">Abschicken</button>
+        </form>
+
+        <form th:if="${communityBettingInfo.basePrice < 0.01 + communityBettingInfo.userBets.get(currentUserName)}"
+              action="/removeUserBetAmountFromCommunityBet" method="POST">
+            <label for="removedBetAmount" th:text="'Einsatz entfernen: (Vielfaches des Grundeinsatzes: '"></label>
+            <select id="removedBetAmount" name="removedBetAmount">
+                <option
+                        th:each="i : ${#numbers.sequence(1, removeIndex)}"
+                        th:value="${i * communityBettingInfo.basePrice}"
+                        th:text="${i * -1 * communityBettingInfo.basePrice}">
+                </option>
+            </select>
+            <input type="hidden" name="bettingSlipId" th:value="${bettingSlipId}">
+            <input type="hidden" name="communityName" th:value="${communityName}">
+            <input type="hidden" name="userName" th:value="${currentUserName}">
+            <button type="submit">Abschicken</button>
+        </form>
+    </div>
+    <div class="community-overview">
+        <a th:href="@{/gemeinschaft/{communityName}(communityName=${communityName})}">Zurueck zur Gemeinschaft</a>
+    </div>
+</div>
+
+
+</body>
+</html>

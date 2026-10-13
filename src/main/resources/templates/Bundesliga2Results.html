@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/totoForm.css}">
+    <title>Ergebnisse 2. Bundesliga</title>
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+
+<div class="Game__container">
+    <div class="matchday-results-header">
+        <h2 class="title">Ergebnisse des letzten Spieltags</h2>
+    </div>
+
+    <div class="matchday-results-container">
+        <div class="matchday-results">
+			<div th:each="number : ${matchresults}" class="number" th:text="${number.matchResult}">1</div>
+        </div>
+
+    </div>
+    <div class = "footer">
+        <div class="jackpot">
+            Jackpot: 1.000.000 €
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

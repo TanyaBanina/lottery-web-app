@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemeinschaft Wetten</title>
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+<h1 th:text="'Gemeinschaft: ' + ${communityName}">Gemeinschaft Wetten</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Wett-ID</th>
+        <th>Wetteinsatz</th>
+        <th>Gewählte Zahlen</th>
+        <th>Superzahl</th>
+        <th>Langzeitwette</th>
+        <th>Dauer</th>
+        <th>Aktion</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="bet : ${communityBets}">
+        <td th:text="${bet.id}"></td>
+        <td th:text="${bet.betAmount}"></td>
+        <td>
+            <ul>
+                <li th:each="numbersSet : ${bet.numbersList}"
+                    th:text="${#strings.listJoin(numbersSet.numbers, ', ')}"></li>
+            </ul>
+        </td>
+        <td th:text="${bet.superNumber}"></td>
+        <td th:text="${bet.isPermanent() ? 'Ja' : 'Nein'}"></td>
+        <td th:text="${bet.getDurationType()}"></td>
+        <td>
+            <form th:action="@{'/spielen'}" method="get">
+                <input type="hidden" name="communityId" th:value="${communityId}">
+                <input type="hidden" name="betId" th:value="${bet.id}">
+                <button type="submit">Bearbeiten</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

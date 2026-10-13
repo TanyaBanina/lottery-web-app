@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <title th:text="#{profilUser.welcome}"></title>
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+<br>
+    <div class="welcome-message">
+        <section layout:fragment="content">
+            <h2 th:text="#{profilUser.welcome}">.</h2>
+            <br>
+            <h1>Schön dich zu sehen, <span th:text="${username}">Benutzername</span>!</h1>
+            <h1>Du hast momentan: <span th:text="${balance}">Konto</span> Euro auf dem Konto</h1>
+        </section>
+    </div>
+</body>
+</html>

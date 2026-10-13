@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <title></title>
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+<div class="my-community-header">
+    <h1 class = "my-community-name" th:text="${communityName}">Gemeinschaftsname</h1>
+    <form action="/leaveCommunity" method="POST">
+        <input type="hidden" name="communityName" th:value="${communityName}">
+        <button type="submit" class="my-community-leave">Austreten</button>
+    </form></div>
+
+<div class="community">
+    <div class="community-overview left">
+        <table class="mitglieder-table">
+            <thead>
+                <th>Mitglieder</th>
+            </thead>
+            <tr th:each="name: ${names}">
+                <td class="mitglieder" th:text="${name}">username</td>
+
+            </tr>
+        </table>
+    </div>
+
+    <div class="community-overview right">
+        <div class="community-bet-buttons">
+            <a class="community-button-style-a" th:href="@{/spielen(communityId=${communityId})}">Neue Lotto Gemeinschaftswette</a>
+            <a class="community-button-style-a" th:href="@{/bundesliga1(communityId=${communityId})}">Neue Fußballtoto Gemeinschaftswette</a>
+        </div>
+        <div>
+            <h1>Aktive Wetten</h1>
+        <ul class="community-bet-ul-header">
+            <li class="community-bet-li">
+                <div class="community-bet-li-values flex3 header">Spiel</div>
+                <div class="community-bet-li-values flex3 header">Erstellt</div>
+                <div class="community-bet-li-values flex3 header">Auslosung</div>
+                <div class="community-bet-li-values flex3 header">Teilnehmer</div>
+                <div class="community-bet-li-values flex3 header">Gesamteinsatz</div>
+                <div class="community-bet-li-values flex3 header">mindest Wetteinsatz</div>
+                <div class="community-bet-li-values flex3 header">mein Einsatz</div>
+                <div class="community-bet-li-values flex3 header">Optionen</div>
+
+            </li>
+        </ul>
+
+        <div class="community-bet-border-horizontal-1"></div>
+
+        <ul class="community-bet-ul">
+            <!--            show "du bist noch kein mitglied einer gemeisnchaft"-->
+            <li th:each="bet : ${communityBettingInfos}" class="community-bet-li">
+                <div class="community-bet-li-values flex3" th:text="${bet.gameName}"></div>
+                <div class="community-bet-li-values flex3" th:text="${bet.submittedDate}" ></div>
+                <div class="community-bet-li-values flex3" th:text="${bet.drawDate}"></div>
+                <div class="community-bet-li-values flex3" th:text="${bet.participants}"></div>
+                <div class="community-bet-li-values flex3" th:text="${bet.betAmount}+ €"></div>
+                <div class="community-bet-li-values flex3" th:text="${bet.basePrice}+ €"></div>
+                <div class="community-bet-li-values flex3" th:text="${bet.userBets.get(currentUserName)}+ €"></div>
+
+                <a th:href="@{/community/{communityName}/options/{id}(communityName=${communityName}, id=${bet.bettingSlipId})}" class="community-bet-button-style-a">
+                    Optionen
+                </a>
+            </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

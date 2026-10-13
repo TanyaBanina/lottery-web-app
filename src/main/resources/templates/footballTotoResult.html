@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <title>Confirmation</title>
+</head>
+<body>
+<h1>Confirmation</h1>
+<p>Your Football Toto Predictions:</p>
+<table>
+    <thead>
+    <tr>
+        <th>Match</th>
+        <th>Prediction</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="entry : ${predictions}">
+        <td th:text="${entry.key}"></td>
+        <td th:text="${entry.value}"></td>
+    </tr>
+    </tbody>
+</table>
+<a href="/bundesliga1">Back to Play</a>
+</body>
+</html>

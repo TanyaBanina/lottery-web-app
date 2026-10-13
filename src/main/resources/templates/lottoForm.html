@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lotto Number Selection</title>
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/lottoForm.css}">
+
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+
+<div class="container">
+    <form action="#" th:action="@{/submitSlot/{slotId}(slotId=${slotId})}" method="post">
+        <input type="hidden" name="betId" th:value="${betId}"/>
+        <input type="hidden" name="slotId" th:value="${slotId}" />
+        <input type="hidden" name="communityId" th:value="${communityId}"/>
+        <div th:if="${error != null}" class="error" th:text="${error}"></div>
+        <div th:if="${message != null}" class="message" th:text="${message}"></div>
+
+        <div class="lotto-container">
+            <table class="lotto-table">
+                <tr>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num1" name="numbers" value="1" class="lotto-checkbox" th:checked="${selectedNumbers.contains(1)}">
+                            <span class="lotto-number">1</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num2" name="numbers" value="2" class="lotto-checkbox" th:checked="${selectedNumbers.contains(2)}">
+                            <span class="lotto-number">2</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num3" name="numbers" value="3" class="lotto-checkbox" th:checked="${selectedNumbers.contains(3)}">
+                            <span class="lotto-number">3</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num4" name="numbers" value="4" class="lotto-checkbox" th:checked="${selectedNumbers.contains(4)}">
+                            <span class="lotto-number">4</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num5" name="numbers" value="5" class="lotto-checkbox" th:checked="${selectedNumbers.contains(5)}">
+                            <span class="lotto-number">5</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num6" name="numbers" value="6" class="lotto-checkbox" th:checked="${selectedNumbers.contains(6)}">
+                            <span class="lotto-number">6</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num7" name="numbers" value="7" class="lotto-checkbox" th:checked="${selectedNumbers.contains(7)}">
+                            <span class="lotto-number">7</span>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num8" name="numbers" value="8" class="lotto-checkbox" th:checked="${selectedNumbers.contains(8)}">
+                            <span class="lotto-number">8</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num9" name="numbers" value="9" class="lotto-checkbox" th:checked="${selectedNumbers.contains(9)}">
+                            <span class="lotto-number">9</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num10" name="numbers" value="10" class="lotto-checkbox" th:checked="${selectedNumbers.contains(10)}">
+                            <span class="lotto-number">10</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num11" name="numbers" value="11" class="lotto-checkbox" th:checked="${selectedNumbers.contains(11)}">
+                            <span class="lotto-number">11</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num12" name="numbers" value="12" class="lotto-checkbox" th:checked="${selectedNumbers.contains(12)}">
+                            <span class="lotto-number">12</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num13" name="numbers" value="13" class="lotto-checkbox" th:checked="${selectedNumbers.contains(13)}">
+                            <span class="lotto-number">13</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num14" name="numbers" value="14" class="lotto-checkbox" th:checked="${selectedNumbers.contains(14)}">
+                            <span class="lotto-number">14</span>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num15" name="numbers" value="15" class="lotto-checkbox" th:checked="${selectedNumbers.contains(15)}">
+                            <span class="lotto-number">15</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num16" name="numbers" value="16" class="lotto-checkbox" th:checked="${selectedNumbers.contains(16)}">
+                            <span class="lotto-number">16</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num17" name="numbers" value="17" class="lotto-checkbox" th:checked="${selectedNumbers.contains(17)}">
+                            <span class="lotto-number">17</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num18" name="numbers" value="18" class="lotto-checkbox" th:checked="${selectedNumbers.contains(18)}">
+                            <span class="lotto-number">18</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num19" name="numbers" value="19" class="lotto-checkbox" th:checked="${selectedNumbers.contains(19)}">
+                            <span class="lotto-number">19</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num20" name="numbers" value="20" class="lotto-checkbox" th:checked="${selectedNumbers.contains(20)}">
+                            <span class="lotto-number">20</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num21" name="numbers" value="21" class="lotto-checkbox" th:checked="${selectedNumbers.contains(21)}">
+                            <span class="lotto-number">21</span>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num22" name="numbers" value="22" class="lotto-checkbox" th:checked="${selectedNumbers.contains(22)}">
+                            <span class="lotto-number">22</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num23" name="numbers" value="23" class="lotto-checkbox" th:checked="${selectedNumbers.contains(23)}">
+                            <span class="lotto-number">23</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num24" name="numbers" value="24" class="lotto-checkbox" th:checked="${selectedNumbers.contains(24)}">
+                            <span class="lotto-number">24</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num25" name="numbers" value="25" class="lotto-checkbox" th:checked="${selectedNumbers.contains(25)}">
+                            <span class="lotto-number">25</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num26" name="numbers" value="26" class="lotto-checkbox" th:checked="${selectedNumbers.contains(26)}">
+                            <span class="lotto-number">26</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num27" name="numbers" value="27" class="lotto-checkbox" th:checked="${selectedNumbers.contains(27)}">
+                            <span class="lotto-number">27</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num28" name="numbers" value="28" class="lotto-checkbox" th:checked="${selectedNumbers.contains(28)}">
+                            <span class="lotto-number">28</span>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num29" name="numbers" value="29" class="lotto-checkbox" th:checked="${selectedNumbers.contains(29)}">
+                            <span class="lotto-number">29</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num30" name="numbers" value="30" class="lotto-checkbox" th:checked="${selectedNumbers.contains(30)}">
+                            <span class="lotto-number">30</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num31" name="numbers" value="31" class="lotto-checkbox" th:checked="${selectedNumbers.contains(31)}">
+                            <span class="lotto-number">31</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num32" name="numbers" value="32" class="lotto-checkbox" th:checked="${selectedNumbers.contains(32)}">
+                            <span class="lotto-number">32</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num33" name="numbers" value="33" class="lotto-checkbox" th:checked="${selectedNumbers.contains(33)}">
+                            <span class="lotto-number">33</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num34" name="numbers" value="34" class="lotto-checkbox" th:checked="${selectedNumbers.contains(34)}">
+                            <span class="lotto-number">34</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num35" name="numbers" value="35" class="lotto-checkbox" th:checked="${selectedNumbers.contains(35)}">
+                            <span class="lotto-number">35</span>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num36" name="numbers" value="36" class="lotto-checkbox" th:checked="${selectedNumbers.contains(36)}">
+                            <span class="lotto-number">36</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num37" name="numbers" value="37" class="lotto-checkbox" th:checked="${selectedNumbers.contains(37)}">
+                            <span class="lotto-number">37</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num38" name="numbers" value="38" class="lotto-checkbox" th:checked="${selectedNumbers.contains(38)}">
+                            <span class="lotto-number">38</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num39" name="numbers" value="39" class="lotto-checkbox" th:checked="${selectedNumbers.contains(39)}">
+                            <span class="lotto-number">39</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num40" name="numbers" value="40" class="lotto-checkbox" th:checked="${selectedNumbers.contains(40)}">
+                            <span class="lotto-number">40</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num41" name="numbers" value="41" class="lotto-checkbox" th:checked="${selectedNumbers.contains(41)}">
+                            <span class="lotto-number">41</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num42" name="numbers" value="42" class="lotto-checkbox" th:checked="${selectedNumbers.contains(42)}">
+                            <span class="lotto-number">42</span>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num43" name="numbers" value="43" class="lotto-checkbox" th:checked="${selectedNumbers.contains(43)}">
+                            <span class="lotto-number">43</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num44" name="numbers" value="44" class="lotto-checkbox" th:checked="${selectedNumbers.contains(44)}">
+                            <span class="lotto-number">44</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num45" name="numbers" value="45" class="lotto-checkbox" th:checked="${selectedNumbers.contains(45)}">
+                            <span class="lotto-number">45</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num46" name="numbers" value="46" class="lotto-checkbox" th:checked="${selectedNumbers.contains(46)}">
+                            <span class="lotto-number">46</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num47" name="numbers" value="47" class="lotto-checkbox" th:checked="${selectedNumbers.contains(47)}">
+                            <span class="lotto-number">47</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num48" name="numbers" value="48" class="lotto-checkbox" th:checked="${selectedNumbers.contains(48)}">
+                            <span class="lotto-number">48</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="lotto-label">
+                            <input type="checkbox" id="num49" name="numbers" value="49" class="lotto-checkbox" th:checked="${selectedNumbers.contains(49)}">
+                            <span class="lotto-number">49</span>
+                        </label>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="submit-container">
+                <button type="submit" class="button submit-button">
+                    <img src="../resources/icons/fertig-icon.png" alt="Submit">
+                    <span>Fertig</span>
+                </button>
+            </div>
+        </div>
+    </form>
+
+
+    <div class="slot-info-container">
+        <div class="slot-info">
+            Slot: <span th:text="${slotId}">1</span> / 12
+        </div>
+    </div>
+
+    <div class="control-sidebar">
+        <div class="einsatz">
+            Einsatz:
+        </div>
+        <div class="amount">
+            <span th:text="${betAmount}">10</span> €
+        </div>
+
+        <div class="button-panel">
+            <div class="control-buttons">
+                <form th:action="@{/generate-random-numbers-slot}" method="post">
+                    <input type="hidden" name="betId" th:value="${betId}"/>
+                    <input type="hidden" name="slotId" th:value="${slotId}" />
+                    <input type="hidden" name="communityId" th:value="${communityId}"/>
+                    <button type="submit" class="button">
+                        <img src="../resources/icons/dice-icon.png" alt="Zufall">
+                        <span>Zufall</span>
+                    </button>
+                </form>
+                <form th:action="@{/clear-slot}" method="post">
+                    <input type="hidden" name="betId" th:value="${betId}"/>
+                    <input type="hidden" name="slotId" th:value="${slotId}" />
+                    <input type="hidden" name="communityId" th:value="${communityId}"/>
+                    <button type="submit" class="button">
+                        <img src="../resources/icons/clear-icon.png" alt="Clear">
+                        <span>Löschen</span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

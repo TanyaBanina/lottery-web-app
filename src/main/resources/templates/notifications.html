@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <title></title>
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+<!--change css classes to avoid dependencies if there is time to-->
+<div class="my-community-header">
+    <h1 class = "my-community-name">Systemnachrichten</h1>
+</div>
+
+<ul class="konto-info-container header">
+    <li class="konto-info-item header">
+        <div class="konto-info-field flex5">Nachricht</div>
+        <div class="konto-info-field flex2">Datum</div>
+    </li>
+</ul>
+<ul class="konto-info-container item">
+    <li th:each="message : ${messages}" class="konto-info-item">
+        <div class="konto-info-field flex5" style="white-space: pre-line; word-wrap: break-word;" th:text="${message.content}"/>
+        <div class="konto-info-field flex2" th:text="${message.date}"/>
+
+    </li>
+</ul>
+
+<!--<table>-->
+<!--    <thead>-->
+<!--        <tr>-->
+<!--            <th>Content</th>-->
+<!--            <th>Date</th>-->
+<!--        </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--         <tr th:each="message : ${messages}">-->
+<!--             <td style="white-space: pre-line;" th:text="${message.content}"></td>-->
+<!--             <td th:text="${message.date}"></td>-->
+
+<!--        </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/numbers.css}">
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+
+<div class="container">
+    <div class="header">
+        <h2 class="title">Zahlen</h2>
+        <form action="/aktuelleZahlen" method="get" class="date-form">
+            <select name="selectedDate" class="date-selector" onchange="this.form.submit()">
+                <option th:each="dateMap : ${dates}"
+                        th:value="${dateMap.full}"
+                        th:text="${dateMap.display}"
+                        th:selected="${dateMap.full == selectedDate}">
+                </option>
+            </select>
+        </form>
+
+
+
+    </div>
+
+    <div class="winning-numbers-container">
+        <div class="winning-numbers">
+            <div th:each="number : ${numbers}" class="number" th:text="${number}">16</div>
+        </div>
+
+        <div class="superzahl-container">
+            <div class="superzahl-label">Superzahl</div>
+            <div class="superzahl" th:text="${superNumber}">4</div>
+        </div>
+    </div>
+    <div class = "footer">
+        <div class="draw-date" th:text="'Nächste Ziehung: ' + ${drawDate}"></div>
+        <div class="jackpot">
+            Jackpot: 1000000.0 €
+            <img th:src="@{/resources/icons/jackpot.png}" alt="icon" class="icon" />
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

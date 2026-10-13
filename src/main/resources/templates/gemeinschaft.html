@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <title></title>
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+<div class="community">
+    <div class="community-overview-left-side">
+        <h1 class="community-own-communities-header">Gemeinschaften</h1>
+
+        <div class="community-own-communities-border-horizontal"></div>
+
+        <ul class="community-own-communities-ul-header">
+            <!--            show "du bist noch kein mitglied einer gemeisnchaft"-->
+            <li class="community-own-communities-li">
+                <div class="community-own-communities-li-values flex6 header">Gemeinschaftsname</div>
+                <div class="community-own-communities-li-values flex4 header">Role</div>
+                <div class="community-own-communities-li-values flex6 header">Mitglieder</div>
+                <div class="community-own-communities-li-values flex6 header">aktive Wetten</div>
+                <div class="community-own-communities-li-values flex3 header"></div>
+            </li>
+        </ul>
+
+        <div class="community-own-communities-border-horizontal-1"></div>
+
+        <ul class="community-own-communities-ul">
+<!--            show "du bist noch kein mitglied einer gemeisnchaft"-->
+            <li th:each="community : ${communities}" class="community-own-communities-li">
+                <div class="community-own-communities-li-values flex6" th:text="${community.name}">Community</div>
+                <div class="community-own-communities-li-values flex4" th:text="${community.showRole(user)}" >Mitglied</div>
+                <div class="community-own-communities-li-values flex6" th:text="${community.getCommunitySize()} + '/30'">1/30 Mitglieder</div>
+                <div class="community-own-communities-li-values flex6" th:text="${community.getOngoingBetsCount}">x aktive Wetten</div>
+                <a th:href="@{/gemeinschaft/{communityName}(communityName=${community.name})}" class="community-button-style-a">
+                    anzeigen
+                </a>
+
+            </li>
+        </ul>
+    </div>
+    <div class="community-own-communities-border-vertical"></div>
+
+    <div class="community-overview-right-side">
+        <div class="community-join-create-container">
+            <h1>Gemeinschaft beitreten</h1>
+            <form th:object="${joinCommunityForm}" th:action="@{/joinCommunity}" method="post">
+                <label for="fname">Gemeinschaftsname:</label>
+                <div>
+                    <input type="text" id="fname" placeholder="Gemeinschaft..." required th:field="*{name}">
+                </div>
+                <label for="pass">Passwort:</label>
+                <div>
+                    <input type="password" id="pass" th:field="*{password}">
+                </div>
+                <br/>
+                <div>
+                    <input type="submit" value="beitreten">
+                </div>
+            </form>
+        </div>
+        <div class="community-join-create-container-border-horizontal"></div>
+        <div class="community-join-create-container">
+            <h1>Gemeinschaft erstellen</h1>
+            <form th:object="${communityForm}" th:action="@{/createCommunity}" method="post">
+                <label for="fname"> Gemeinschaftsname:</label>
+                <div>
+                    <input type="text" id="fname" placeholder="Gemeinschaft..." required th:field="*{name}">
+                </div>
+                <label>Passwort:</label>
+                <div>
+                    <input type="password" id="pass" th:field="*{password}">
+                </div>
+                <br/>
+                <div>
+                    <input type="submit" value="erstellen">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>

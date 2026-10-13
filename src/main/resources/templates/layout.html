@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+</head>
+<body>
+<div th:fragment="topbar">
+    <nav class="navbar"><a href="/" class="navbar__logo">
+            <img th:src="@{/resources/icons/logo.png}" alt="Company Logo" class="navbar__logo-image" />
+        </a>
+        <div class="navbar__menu">
+            <!-- Dropdown: 6 aus 49 -->
+            <div class="dropdown">
+                <span class="dropdown__toggle">6 aus 49
+                    <img th:src="@{/resources/icons/lotto.png}" alt="icon" class="icon" />
+                </span>
+                <div class="dropdown__content">
+                    <a sec:authorize="!hasRole('ADMIN')" href="/spielen">Spielen</a>
+                    <a sec:authorize="hasRole('ADMIN')" href="/6aus49Statistik">Statistik</a>
+                    <a href="/aktuelleZahlen">Zahlen</a>
+                    <a href="/quoten">Quoten</a>
+                </div>
+            </div>
+
+            <!-- Dropdown: Fußballtoto -->
+            <div class="dropdown">
+                <span class="dropdown__toggle">Fußballtoto
+                    <img th:src="@{/resources/icons/toto.png}" alt="icon" class="icon" />
+                </span>
+                <div class="dropdown__content">
+                    <!-- If ADMIN: only show Statistik -->
+                    <a sec:authorize="hasRole('ADMIN')" href="/totoStatistik">Statistik</a>
+                    <a sec:authorize="hasRole('ADMIN')" href="/ergebnisse-bl1">Ergebnisse 1. BL</a>
+                    <a sec:authorize="hasRole('ADMIN')" href="/ergebnisse-bl2">Ergebnisse 2. BL</a>
+
+                    <!-- If not ADMIN: show old links -->
+                    <a sec:authorize="!hasRole('ADMIN')" href="/bundesliga1">1. Bundesliga</a>
+                    <a sec:authorize="!hasRole('ADMIN')" href="/bundesliga2">2. Bundesliga</a>
+                    <a sec:authorize="!hasRole('ADMIN')" href="/ergebnisse-bl1">Ergebnisse 1. BL</a>
+                    <a sec:authorize="!hasRole('ADMIN')" href="/ergebnisse-bl2">Ergebnisse 2. BL</a>
+                </div>
+            </div>
+
+            <!-- Gemeinschaft -->
+            <a class="navbar__link" sec:authorize="hasRole('USER')" th:href="@{/gemeinschaft}">Gemeinschaft</a>
+            <a class="navbar__link" sec:authorize="isAnonymous()" href="/">Gemeinschaft</a>
+
+            <!-- Dropdown: Profil -->
+            <div class="dropdown">
+                <span class="dropdown__toggle">Profil</span>
+                <div class="dropdown__content">
+                    <a sec:authorize="hasRole('USER') and !hasRole('ADMIN')" href="/konto">Konto</a>
+                    <a sec:authorize="hasRole('ADMIN')" href="/profilAdmin">Profil</a>
+                    <a sec:authorize="hasRole('USER')" href="/notifications ">Info</a>
+                    <a sec:authorize="isAuthenticated()" href="/logout">Abmelden</a>
+                    <a sec:authorize="isAnonymous()" href="/login">Anmelden</a>
+                    <a sec:authorize="isAnonymous()" href="/register">Registrieren</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+</body>
+</html>
+

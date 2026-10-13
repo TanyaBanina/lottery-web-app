@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <title>Benutzernamen ändern</title>
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+
+<div class="admin-edit-username">
+    <div class="admin-edit-username-box">
+<h1>Benutzernamen ändern</h1>
+
+<!-- Formular zum Bearbeiten des Benutzernamens -->
+
+<form th:action="@{/profilAdmin/edit/{userId}(userId=${user.id.getIdentifier()})}" th:object="${form}" method="post">
+    <!-- Eingabefeld für den Benutzernamen -->
+    <div class="form-group">
+        <input class="form-control" type="text" id="username" th:field="*{name}" required />
+    </div>
+
+    <!-- Submit-Button für das Formular -->
+    <div class="edit-button">
+    <button type="submit" class="btn btn-primary">Benutzernamen ändern</button>
+    </div>
+</form>
+
+<!-- Erfolgsnachricht, wenn der Benutzername erfolgreich geändert wurde -->
+<div th:if="${message}">
+    <p th:text="${message}" style="color: green;"></p>
+</div>
+
+<!-- Fehlermeldung, wenn ein Fehler auftritt -->
+<div th:if="${error}">
+    <p th:text="${error}" style="color: red;"></p>
+</div>
+
+<!-- Zurück zur Admin-Profilseite -->
+
+<a href="/profilAdmin" class="back-link">Zurück</a>
+
+</div>
+</div>
+</body>
+</html>

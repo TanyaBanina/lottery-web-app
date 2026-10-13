@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/totoForm.css}">
+    <title>Football Toto</title>
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+
+<div class="Game__container">
+    <h3 class="Game__header">
+        <span>Bundesliga 1</span>
+    </h3>
+
+    <form th:action="@{/bundesliga1/submit}" method="post">
+    <table class="toto-table">
+        <tr th:each="match, iterStat : ${matches}">
+            <td><span class="toto-row-nr" th:text="${iterStat.index + 1}"></span></td>
+            <td><span class="toto-row" th:text="${match.teamA}"></span></td>
+            <td><span class="toto-row" th:text="${match.teamB}"></span></td>
+            <td>
+                <input class="small-input" type="radio" th:name="'match-' + ${iterStat.index}" th:value="'1'"> 1
+            </td>
+            <td>
+                <input class="small-input" type="radio" th:name="'match-' + ${iterStat.index}" th:value="'0'"> 0
+            </td>
+            <td>
+                <input class="small-input" type="radio" th:name="'match-' + ${iterStat.index}" th:value="'2'"> 2
+            </td>
+        </tr>
+    </table>
+    <button type="submit" class="Button--primary">Submit</button>
+</form>
+
+</div>
+</body>
+</html>

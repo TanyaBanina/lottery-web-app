@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml">
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" th:href="@{/resources/css/style.css}">
+        <link rel="stylesheet" th:href="@{/resources/css/welcome.css}">
+		<title></title>
+	</head>
+	<body>
+		<div th:replace="~{layout :: topbar}">
+		</div>
+        <div sec:authorize="!hasRole('ADMIN')" class="welcome-message2">
+            <div class="text-container">
+                <div class="sentence1">NEUE LOTTERIE</div>
+                <div class="sentence2">MACH DEIN GLÜCK!</div>
+                <div class="sentence3">Spiele, Investiere, Tausche und Nimm an Wettbewerben mit hohen Belohnungen teil!</div>
+
+                <div class="welcome_button">
+                    <a th:href="@{/spielen}" class="btn">Jetzt spielen!</a>
+                </div>
+            </div>
+            <img th:src="@{/resources/icons/old_man.png}" alt="Welcome Image2" />
+            <img class = "img2" th:src="@{/resources/icons/old_man2.png}" alt="Welcome Image1" />
+        </div>
+
+        <span sec:authorize="hasRole('ADMIN')" class = "admin_welcome">Willkommen im Admin-Bereich!</span>
+
+        <!-- Erfolgsmeldung-->
+        <div th:if="${successMessage != null}" class="popup-message" th:classappend=" ' success'">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <!-- Errormeldung-->
+        <div th:if="${errorMessage != null}" class="popup-message" th:classappend=" ' error'">
+            <span th:text="${errorMessage}"></span>
+        </div>
+	</body>
+</html>

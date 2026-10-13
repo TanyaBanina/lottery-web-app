@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/totoForm.css}">
+    <title>Fußballtoto</title>
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+
+<div class="Game__container">
+    <h3 class="Game__header">
+        <span>Bundesliga 2</span>
+    </h3>
+
+    <form th:action="@{/bundesliga2/submit}" method="post">
+
+    <input type="number" step="0.01" name="betAmount" placeholder="Einsatz" required class="bet-input">
+    <th:block th:if="${communityId != null}">
+        <input type="hidden" name="communityId" th:value="${communityId}">
+    </th:block>
+
+    <table class="toto-table">
+        <tr th:each="match, iterStat : ${matches}">
+            <td><span class="toto-row-nr" th:text="${iterStat.index + 1}"></span></td>
+            <td><span class="toto-row" th:text="${match.teamA}"></span></td>
+            <td><span class="toto-row" th:text="${match.teamB}"></span></td>
+            <td>
+                <input class="small-input" type="radio" th:name="'match-' + ${iterStat.index}" th:value="'1'"> 1
+            </td>
+            <td>
+                <input class="small-input" type="radio" th:name="'match-' + ${iterStat.index}" th:value="'0'"> 0
+            </td>
+            <td>
+                <input class="small-input" type="radio" th:name="'match-' + ${iterStat.index}" th:value="'2'"> 2
+            </td>
+        </tr>
+    </table>
+    <button type="submit" class="Button--primary">Abschließen</button>
+    <button type="button" class="randomize-btn" onclick="randomizeSelections()">Zufall</button>
+
+    </form>
+
+    <div class="footer-text">
+        1 = Gastgeber gewinnt, 0 = Unentschieden, 2 = Gast gewinnt
+    </div>
+
+</div>
+    <script>
+    function randomizeSelections() {
+        var possibilities = ["1", "0", "2"];
+        var matches = document.querySelectorAll('input[type="radio"][name^="match-"]');
+
+        var grouped = {};
+        matches.forEach(m => {
+            var name = m.getAttribute('name');
+            if (!grouped[name]) grouped[name] = [];
+            grouped[name].push(m);
+        });
+
+        for (var matchName in grouped) {
+            var radios = grouped[matchName];
+            var randomValue = possibilities[Math.floor(Math.random()*possibilities.length)];
+            radios.forEach(r => {
+                if (r.value === randomValue) {
+                    r.checked = true;
+                }
+            });
+        }
+    }
+    </script>
+</body>
+</html>

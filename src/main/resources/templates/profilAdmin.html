@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <title th:text="#{profilAdmin.welcome}"></title>
+</head>
+<body>
+
+<div th:replace="~{layout :: topbar}"></div>
+    <div class="welcome-message">
+        <h th:text="#{profilAdmin.welcome}"/>
+        </p>
+    </div>
+<div class="user">
+    <div class="user-overview">
+        <h1>Liste aller Benutzer*innen</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>Benutzername</th>
+                <th>Kontostand</th>
+                <th>Aktionen</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Iteriere über die Benutzerliste und zeige sie an -->
+            <tr th:each="user : ${userList}">
+                <td th:text="${user.userAccount.username}">Benutzername</td>
+                <td th:text="${user.getBankAccount.getBalance()}">Kontostand</td>
+                <td>
+                    <!-- Container für die Buttons mit der CSS-Klasse -->
+                    <div class="button-container">
+                        <!-- Bearbeiten Button -->
+                            <div class="edit-button">
+                                <form th:action="@{/profilAdmin/edit/{userId}(userId=${user.id.getIdentifier()})}" method="get">
+                                    <button type="submit" class="btn btn-sm btn-warning">Bearbeiten</button>
+                                </form>
+                            </div>
+                        <!-- Löschen Button -->
+                        <div class="delete-button">
+                            <form sec:authorize="hasRole('ADMIN')" th:method="post" th:action="@{/profilAdmin/delete/{userId}(userId=${user.id.getIdentifier()})}">
+                                <button type="submit" class="btn btn-sm btn-danger">Löschen</button>
+                            </form>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- Erfolgsmeldung-->
+        <div th:if="${successMessage != null}" class="popup-message" th:classappend=" ' success'">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <!-- Errormeldung-->
+        <div th:if="${errorMessage != null}" class="popup-message" th:classappend=" ' error'">
+            <span th:text="${errorMessage}"></span>
+        </div>
+    </div>
+    </div>
+
+</body>
+</html>

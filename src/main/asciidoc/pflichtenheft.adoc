@@ -1,0 +1,1020 @@
+:project_name: Lotterie "Mach dein Glück!"
+:toc: left
+:numbered:
+= Pflichtenheft __{project_name}__
+
+[options="header"]
+[cols="1, 1, 1, 1, 4"]
+|===
+|Version | Status      | Bearbeitungsdatum   | Autoren(en) |  Vermerk
+|0.1     | In Arbeit   | 10.10.2021          | Autor       | Initiale Version
+|===
+
+== Inhaltsverzeichnis
+1. Zusammenfassung
+2. Aufgabenstellung und Zielsetzung
+3. Produktnutzung
+4. Interessensgruppen (Stakeholders)
+5. Systemgrenze und Top-Level-Architektur
+5.1 Kontextarchitektur
+5.2 Top-Level-Architektur
+6. Anwendungsfälle
+6.1 Akteure
+6.2 Überblick Anwendungsfalldiagramm
+6.3 Andwendungsfallbeschreibungen
+7. Funktionale Anforderungen
+8. Nicht-Funktionale Anforderungen
+8.1 Qualitätsziele
+8.2 Konkrete Nicht-Funktionale Anforderungen
+9. GUI Prototyp
+9.1 Überblick: Dialoglandkarte
+9.2 Dialogbeschreibung
+10. Datenmodell
+10.1 Überblick: Klassendiagramm
+10.2 Klassen und Enumerationen
+11. Akzeptanztestfälle
+12. Glossar
+13. Offene Punkte
+
+== Zusammenfassung
+Dieses Dokument repräsentiert die Software Requirement Specifications (SRS, dt. etwa "Pflichtenheft") des Projektes Lotterie "Mach Dein Glück!". Ziel dieses Pflichtenheftes ist es, einen Überblick über das zu erarbeitende Software Produkt zu geben, sowie als Kommunikationbasis zwischen hauptsächlich dem Klienten und dem Entwicklungsteam zu fungieren.
+
+Dieses Dokument soll als Grundlage für einen Vertrag zwischen Auftraggeber und Auftragnehmer dienen und sollte daher validiert und auf Konsistenz geprüft werden.
+Das Pflichtenheft beschreibt, was das gewünschte System zu erfüllen hat und teilweise, wie der Auftragnehmer die Lösung zu implementieren gedenkt.
+
+I.A. sollte das Pflichtenheft korrekt, vollständig und konsistent sein (CCC), da es am Ende des Projektes verwendet wird, um zu überprüfen, ob die definierte Software geliefert wurde, oder nicht, sollte dieses Ziel *überprüfbar* sein. Es wird während des gesamten Projekts verwendet und konsultiert, weshalb der Inhalt in allen erstellten Artefakten *nachvollziehbar* sein sollte.
+
+In Verbindung mit dem oben Gesagten ist es wünschenswert, dass es einfach zu ändern und weiterzuentwickeln ist, auch wenn die Änderungen auf ein Minimum beschränkt werden sollten, nachdem sich die Beteiligten einmal auf den Inhalt geeinigt haben.
+Da sich jedoch Anforderungen und Umstände während eines Projektes ständig ändern, sind Anpassungen zu erwarten und müssen dokumentiert werden.
+
+== Aufgabenstellung und Zielsetzung
+
+In dem kleinen Nachbarland Gamblien ist die staatlich betriebene Lotterie _Mach Dein Glück!_ sehr populär. In Staatsbesitz befindet sich auch das weitverbreitete Netz an Annahmestellen. Gambliens Wirtschaftsminister _Lottermann_ plant den Einstieg in die "virtuelle Lotterie", um auch Kunden aus anderen Ländern zu gewinnen. Vorbereitend sollen der aktuelle Betrieb der Lotterie und der Annahmestellen auf Computer umgestellt und auf dieser Basis neue Dienste erprobt werden. Minister Lottermann hat unter dem Aktenzeichen "MDG 2000" eine Ausschreibung veröffentlicht,und um Einreichung geeigneter, künftig ausbaubarer Prototypen für ein solches System gebeten.
+
+Aktuell gibt es bei _Mach Dein Glück!_ eine Zahlenlotterie mit wöchentlicher Ziehung und ein Fußballtoto. Die Lotterie _Mach Dein Glück!_ ist eine ganz konventionelle Lotterie "6 aus 49 mit Zusatzzahl". Tippscheine werden an den Annahmestellen bis zum Samstag eingereicht. Am Sonntag erfolgt unter strenger notarieller Aufsicht die Ziehung. Das Fußballtoto bezieht sich mangels eigener
+Liga auf die oberen beiden Klassen der deutschen Bundesliga. Tippscheine können bis 24 Stunden vor Beginn des Spieltags (evtl. auf mehrere Spieltage verteilt und erst mit dem letzten Nachholspiel beendet) in Bundesliga bzw. Pokalrunden eingereicht werden. Bei der Zahlenlotterie können derzeit neben Einzeltippscheinen auch Dauertippscheine (monatlich, halb- bzw. ganzjährig) erworben werden. Tippscheine für das Fußballtoto können ab Veröffentlichung der Spielkalender beliebig im
+Voraus ausgefüllt und abgegeben werden. Nach Minister Lottermanns Plänen soll das Angebot künftig gemäß den neuen Medien flexibler gestaltet sein.
+
+Es werden Gewinngemeinschaften unterstützt. Beim Einrichten einer Gewinngemeinschaft wird von der Lotterie ein Gemeinschafts-Passwort vergeben. Wer das Gemeinschafts-Passwort kennt (eine Art Gemeinschaftsadmin), darf für die Gemeinschaft einen Tipp abgeben und darf seinerseits an Personen Mitglieder-Passwörter vergeben. Mit dem Mitglieder-Passwort kann die Person ihre Anteile (ganzzahlige Vielfache des Grundeinsatzes) bis jeweils vor Wettschluss (gegen Bar- bzw. Vorauszahlung) erhöhen oder verringern
+bzw. zeitweilig ganz aussetzen. Änderungen am Tipp bzw. Einsatz sind bis jeweils 5 Minuten vor Beginn einer Auslosung bzw. eines Fußballspieltags möglich (Letzteres bezogen auf alle Wetten).
+
+An die Stelle von Bareinzahlung sollen künftig Abbuchungen von Konten bei der Lotteriebank treten, die jeder Kunde dort einrichtet und auf die er bar oder per Überweisung rechtzeitig seine Einsätze überträgt. Von diesem Konto werden (in der Reihenfolge der Auslosungen) Einsätze abgebucht. Bei nicht ausreichender Deckung erhält der Kunde eine entsprechende Mitteilung und nimmt an dieser Verlosung nicht teil. Je Mitteilung wird eine Gebühr von 2 € erhoben. Nach zehn Mitteilungen wird
+der Kunde vorläufig aus seinen Gewinngemeinschaften entfernt.
+
+Administratoren der Lotterie sollen die Möglichkeit haben, jederzeit eine Übersicht über die abgegebenen Wetten der Kunden und die finanzielle Situation (Gewinne/Verluste) der Lotterie nach dem jeweiligen Ziehungstagen und Spieltagen zu bekommen.
+Die Lotteriebetreiber wären daran interessiert, ihre Fußballtoto-Daten direkt und aktuell aus dem Internet zu beziehen. Wenn der Prototyp dies demonstrieren würde, sähe man das als ein besonderes Plus an.
+
+Besonders wichtig sind also die Digitalisierung, also der Einstieg in die "virtuelle Lotterie", um Kunden aus anderen Ländern zu gewinnen. Es soll die Möglichkeit bestehen, das Spiele-Repertoire bei Bedarf zu erweitern. Bareinzahlungen sollen dabei ebenfalls durch ein digitales Zahlsystem ersetzt werden. Den Administratoren soll umfassender Zugang auf die Kundendaten gewährt werden (Gewinne, Verluste etc.). Zusammenfassend steht also die Flexibilität an oberster Stelle.
+
+== Produktnutzung
+Dieses System ist ein Webapplication für einen Lotteriebetreiber, die dazu benutzt wird, Menschen Zugang zum Glückspiel (verschiedener Arten) zu gewähren. Die Software sollte auf einem Server laufen und dabei 24/7 über das Internet erreichbar sein (via Browser), Menschen sollen also jederzeit Glückspiele spielen können.
+
+Die Webseite wird von allen möglichen Menschen besucht, die nicht alle zwangsläufig mit dem Umgang mit Webseiten vertraut sind.
+Die Administratoren erhalten besonderen Zugriff auf das System: Sie sollen jederzeit die finanzielle Situation (Gewinn/Verlust) eines Kunden einsehen können.
+
+Da es erwünscht ist, einige Daten aus dem Netz zu beziehen, ist davon auszugehen, dass das System regelmäßiger technischer Wartung bedürfen wird, besonders aber, wenn neue Spiele angeboten werden sollen.
+
+== Interessensgruppen (Stakeholders)
+In diesem Abschnitt werden die realen und juristischen Personen(-gruppen) beschrieben, die Einfluss auf das Projekt haben und welche Anforderungen sie an das Projekt stellen. In der nachfolgenden Tabelle sind diese Personen (Stakeholders) gelistet, priorisiert (1 - wenig Priorität, 5 - höchste Priorität), beschrieben und ihre Ziele sind genauer erläutert.
+
+
+[options="header", cols="2, ^1, 4, 4"]
+|===
+|Name
+|Priorität (1..5)
+|Beschreibung
+|Ziele
+
+|Lottermann
+|5
+|Minister von Gamblien, Hauptclient und Auftraggeber
+a|
+- größere Zielgruppe erreichen
+- Prozesse digitalisieren
+- bessere Zugänglichkeit und Einfachheit in der Anwendung
+- automatisierte Prozesse und bessere Berechenbarkeit
+- schnellere und sicherere Abwibwicklung durch eigenes "Bank"-System
+- Kundenbindung
+- Eweiterbarkeit für andere Länder und Märkte
+- Zentrierung der Einnahmen und Gewinnausschüttungen
+
+|Die lottospielende Bevölkerung Gambliens
+|4
+|Nutzende der Anwendung
+a|
+- gute User Experience
+- Einfachheit der Spiele und Pfade der Website
+- Sicherheit durch Konto bei der Lottobank und zentrierte Gewinnausschüttung
+- Flexibilität durch anpassbare Einsätze und "last-minute-cancellation"
+- Funktionstüchtigkeit
+- Zuverlässigkeit der Website und der Ergebnisse
+
+|"Spiel dein Glück" Lotterie (admin)
+|4
+|Administrator der Anwendung
+a|
+- reibungsloser Ablauf innerhalb der Anwendung
+- Steuerung der Prozesse
+- Einpflegung von Daten (Lotto-Ergebnisse)
+- Auswertung durch verschiedene Statistiken
+
+|Gewinngemeinschaften 
+|3
+|Zusammenschluss einzelner Nutzenden, um gemeinsam an verschiedenen Glücksspielen teilzunehmen
+a|
+- Reibungsloser Ablauf
+- Zuverlässigkeit
+- Fähigkeit Einsätze dynamisch anzupassen
+- innerhalb der Gruppe: Kontrolle über Mitglieder (hinzufügen etc.)
+
+|Entwickler
+|3
+|Menschen, die die Anwenung entwickeln, warten müssen oder später erweitern wollen
+a|
+- einfache Erweiterbarkeit
+- geringe Wartungsnotwendigkeit
+- gute debug-Prozesse
+- Strukturierte Arbeit
+
+|===
+
+== Systemgrenze und Top-Level-Architektur
+
+=== Kontextdiagramm
+[[context_diagram_c4]]
+image::./models/analysis/lotterie_context.drawio.svg[Kontextdiagramm, 100%, 100%, pdfwidth=100%, title= "Kontextdiagramm der {project_name} in C4-Notation", align=center]
+
+=== Top-Level-Architektur
+[[TLA_c4]]
+image::./models/analysis/lotterie-top-level.drawio.svg[top-level architecture, 100%, 100%, pdfwidth=100%, title= "Top Level Architektur der {project_name} in C4-Notation", align=center]
+
+== Anwendungsfälle
+
+=== Akteure
+
+Akteure sind die Benutzer des Software-Systems oder Nachbarsysteme, welche darauf zugreifen. Dokumentieren Sie die Akteure in einer Tabelle. Diese Tabelle gibt einen Überblick über die Akteure und beschreibt sie kurz. Die Tabelle hat also mindestens zwei Spalten (Akteur Name und Kommentar).
+Weitere relevante Spalten können bei Bedarf ergänzt werden.
+
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+[cols="1,4"]
+|===
+|Name |Beschreibung
+|_Registered User / Authenticated User_  |Vertreter für jede Person, die ein Konto hat, authentifiziert ist und mit dem System interagiert.
+|Unauthenticated User  |Vertreter für nicht authentifizierten Zugriff (d.h. nicht authentifizierte Besucher).
+|Admin |Jeder registrierte (und authentifizierte) Benutzer, der die Rolle "ADMIN" hat. Ist verantwortlich für die Verwaltung der Anwendung.
+|Gewinngemeinschaft Mitglieder |Jeder registrierte (und authentifizierte) Benutzer, der Teil einer Gewinngemeinschaft ist. Diese Mitglieder können ihre Beiträge verwalten.
+|Gewinngemeinschaft Admin |Vertreter eines Mitglieds, das eine Gewinngemeinschaft verwaltet. Er hat das Recht, Tipps abzugeben und die Mitglieder zu verwalten.
+|===
+
+=== Überblick Anwendungsfalldiagramm
+
+[[use_case_diagram]]
+image::./models/analysis/lotterie_use_case.svg[Use Case diagram, 100%, 100%, pdfwidth=100%, title= "Anwendungsfalldiagramm der {project_name}", align=center]
+
+=== Anwendungsfallbeschreibungen
+Dieser Unterabschnitt beschreibt die Anwendungsfälle. In dieser Beschreibung müssen noch nicht alle Sonderfälle und Varianten berücksichtigt werden. Schwerpunkt ist es, die wichtigsten Anwendungsfälle des Systems zu finden. Wichtig sind solche Anwendungsfälle, die für den Auftraggeber, den Nutzer den größten Nutzen bringen.
+Für komplexere Anwendungsfälle ein UML-Sequenzdiagramm ergänzen.
+Einfache Anwendungsfälle mit einem Absatz beschreiben.
+Die typischen Anwendungsfälle (Anlegen, Ändern, Löschen) können zu einem einzigen zusammengefasst werden.
+
+// Spieler
+[cols="1h, 3"]
+[[UC0010]]
+|===
+|ID                         |**<<UC0010>>**
+|Name                       |Anmelden
+|Description                |Ein Benutzer soll sich im System authentifizieren können, um auf weitere Funktionen zuzugreifen.
+|Actors                     |User
+|Trigger                    |Benutzer möchte auf geschützte Funktionen zugreifen.
+|Precondition(s)           a|Benutzer ist nicht authentifiziert.
+|Essential Steps           a|
+  1. Benutzer wählt die Login-Option.
+  2. Benutzer gibt Anmeldedaten ein.
+  3. System authentifiziert den Benutzer und gibt Zugriff auf geschützte Funktionen.
+
+|Extensions                 |Falls Anmeldedaten falsch sind, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0010>>
+|===
+
+
+[cols="1h, 3"]
+[[UC0011]]
+|===
+|ID                         |**<<UC0011>>**
+|Name                       |Abmelden
+|Description                |Ein authentifizierter Benutzer soll sich vom System abmelden können.
+|Actors                     |Registered User
+|Trigger                    |Benutzer möchte sich abmelden.
+|Precondition(s)           a|Benutzer ist authentifiziert.
+
+|Essential Steps           a|
+  1. Benutzer wählt die Logout-Option.
+  2. System meldet den Benutzer ab und zeigt die Startseite an.
+
+|Extensions                 |-
+|Functional Requirements    |<<F0011>>
+|===
+
+
+[cols="1h, 3"]
+[[UC0012]]
+|===
+|ID                         |**<<UC0020>>**
+|Name                       |Registrieren
+|Description                |Ein nicht authentifizierter Benutzer soll ein Konto erstellen können.
+|Actors                     |Unauthenticated User
+|Trigger                    |Benutzer möchte ein Konto erstellen.
+|Precondition(s)           a|Benutzer ist nicht eingeloggt.
+
+|Essential Steps           a|
+  1. Benutzer wählt die Registrierungsoption.
+  2. Benutzer gibt Anmeldedaten und persönliche Informationen ein.
+  3. System erstellt ein neues Konto und bestätigt die Registrierung.
+
+|Extensions                 |Falls Benutzername bereits vergeben ist, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0012>>
+|===
+
+
+// Lotto
+[cols="1h, 3"]
+[[UC0100]]
+|===
+|ID                         |**<<UC0100>>**
+|Name                       |Live-Ziehung ansehen
+|Description                |Ein Spieler soll die Live-Ziehung der Lotterie ansehen können.
+|Actors                     |Spieler
+|Trigger                    |Spieler möchte die aktuelle Live-Ziehung sehen.
+|Precondition(s)           a|Benutzer ist authentifiziert und als Spieler registriert.
+
+|Essential Steps           a|
+  1. Spieler wählt die Option zur Live-Ziehung.
+  2. System zeigt die Live-Ziehung der Lotterie an.
+
+|Extensions                 |Falls keine Ziehung verfügbar ist, wird eine Benachrichtigung angezeigt.
+|Functional Requirements    |<<F0100>>
+|===
+
+[cols="1h, 3"]
+[[UC0110]]
+|===
+|ID                         |**<<UC0110>>**
+|Name                       |Spielkalender ansehen
+|Description                |Ein Spieler soll den Spielkalender einsehen können, um anstehenden Ziehungen und Spielen zu sehen.
+|Actors                     |Spieler
+|Trigger                    |Spieler möchte die Termine für zukünftige Ziehungen und Spiele prüfen.
+|Precondition(s)           a|Benutzer ist authentifiziert und als Spieler registriert.
+
+|Essential Steps           a|
+  1. Spieler wählt die Option "Spielkalender ansehen".
+  2. System zeigt den Kalender mit den anstehenden Ziehungen und Spielen an.
+
+|Extensions                 |-
+|Functional Requirements    |<<F0110>>
+|===
+
+[cols="1h, 3"]
+[[UC0120]]
+|===
+|ID                         |**<<UC0120>>**
+|Name                       |Tippschein abgeben
+|Description                |Ein Spieler soll in der Lage sein, einen Tippschein auszufüllen und abzugeben.
+|Actors                     |Spieler
+|Trigger                    |Spieler möchte an der Lotterie teilnehmen.
+|Precondition(s)           a|Benutzer ist authentifiziert und als Spieler registriert.
+
+|Essential Steps           a|
+  1. Spieler wählt die Option "Tippschein abgeben".
+  2. Spieler gibt seine Zahlen und Einsatz ein.
+  3. System bestätigt die Abgabe des Tippscheins.
+
+|Extensions                 |Falls die Teilnahme fehlschlägt, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0120>>
+|===
+
+[cols="1h, 3"]
+[[UC0121]]
+|===
+|ID                         |**<<UC0121>>**
+|Name                       |Fußballtoto abgeben
+|Description                |Ein Spieler soll die Möglichkeit haben, einen Fußballtoto-Schein abzugeben.
+|Actors                     |Spieler
+|Trigger                    |Spieler möchte an der Fußballtoto-Ziehung teilnehmen.
+|Precondition(s)           a|Benutzer ist authentifiziert und hat ausreichend Guthaben.
+
+|Essential Steps           a|
+  1. Spieler wählt "Fußballtoto abgeben".
+  2. Spieler gibt die Vorhersagen und den Einsatz ein.
+  3. System bestätigt die Abgabe des Fußballtoto-Scheins.
+
+|Extensions                 |Falls der Einsatz nicht ausreichend ist, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0121>>
+|===
+
+[cols="1h, 3"]
+[[UC0122]]
+|===
+|ID                         |**<<UC0122>>**
+|Name                       |Zahlenlotto abgeben
+|Description                |Ein Spieler soll in der Lage sein, einen Zahlenlotto-Schein abzugeben.
+|Actors                     |Spieler
+|Trigger                    |Spieler möchte an der Zahlenlotto-Ziehung teilnehmen.
+|Precondition(s)           a|Benutzer ist authentifiziert und hat ausreichend Guthaben.
+
+|Essential Steps           a|
+  1. Spieler wählt "Zahlenlotto abgeben".
+  2. Spieler gibt die Lottozahlen und den Einsatz ein.
+  3. System bestätigt die Abgabe des Zahlenlotto-Scheins.
+
+|Extensions                 |Falls der Einsatz nicht ausreichend ist, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0122>>
+|===
+
+[cols="1h, 3"]
+[[UC0123]]
+|===
+|ID                         |**<<UC0123>>**
+|Name                       |Dauertippschein abgeben
+|Description                |Ein Spieler soll die Möglichkeit haben, einen Dauertippschein für regelmäßige Einsätze einzurichten.
+|Actors                     |Spieler
+|Trigger                    |Spieler möchte regelmäßig an der Lotterie teilnehmen.
+|Precondition(s)           a|Benutzer ist authentifiziert und hat ausreichend Guthaben.
+
+|Essential Steps           a|
+  1. Spieler wählt "Dauertippschein abgeben".
+  2. Spieler legt die Frequenz und den Einsatz fest.
+  3. System bestätigt die Einrichtung des Dauertippscheins.
+
+|Extensions                 |Falls der Einsatz nicht ausreichend ist, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0123>>
+|===
+
+[cols="1h, 3"]
+[[UC0130]]
+|===
+|ID                         |**<<UC0130>>**
+|Name                       |Gewinn abfragen
+|Description                |Ein Spieler soll seinen Gewinn abfragen können.
+|Actors                     |Spieler
+|Trigger                    |Spieler möchte wissen, ob er gewonnen hat.
+|Precondition(s)           a|Benutzer ist authentifiziert und hat an der Ziehung teilgenommen.
+
+|Essential Steps           a|
+  1. Spieler wählt die Option "Gewinn abfragen".
+  2. System zeigt den Gewinnstatus des Spielers an.
+
+|Extensions                 |Falls keine Ziehung durchgeführt wurde, wird eine entsprechende Nachricht angezeigt.
+|Functional Requirements    |<<F0130>>
+|===
+
+[cols="1h, 3"]
+[[UC0140]]
+|===
+|ID                         |**<<UC0140>>**
+|Name                       |Kundenwetten überwachen
+|Description                |Ein Administrator soll die Möglichkeit haben, die Wetten der Kunden zu überwachen.
+|Actors                     |Administrator
+|Trigger                    |Administrator möchte die Aktivitäten der Spieler überwachen.
+|Precondition(s)           a|Benutzer ist authentifiziert und hat Administratorrechte.
+
+|Essential Steps           a|
+  1. Administrator wählt die Option "Kundenwetten überwachen".
+  2. System zeigt die aktuellen Wetten der Spieler an.
+
+|Extensions                 |Falls keine Wetten vorhanden sind, wird eine entsprechende Nachricht angezeigt.
+|Functional Requirements    |<<F0140>>
+|===
+
+
+// Finanzen
+[cols="1h, 3"]
+[[UC0200]]
+|===
+|ID                         |**<<UC0200>>**
+|Name                       |Konto einrichten
+|Description                |Ein Benutzer soll ein Konto einrichten können, um finanzielle Transaktionen durchzuführen.
+|Actors                     |User
+|Trigger                    |Benutzer möchte ein neues Konto erstellen.
+|Precondition(s)           a|Benutzer ist nicht eingeloggt.
+
+|Essential Steps           a|
+  1. Benutzer wählt die Option "Konto einrichten".
+  2. Benutzer gibt persönliche Informationen und Kontodaten ein.
+  3. System erstellt das Konto und bestätigt die Einrichtung.
+
+|Extensions                 |Falls die eingegebenen Daten ungültig sind, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0200>>
+|===
+
+[cols="1h, 3"]
+[[UC0210]]
+|===
+|ID                         |**<<UC0210>>**
+|Name                       |Einsatz überweisen
+|Description                |Ein Benutzer soll in der Lage sein, einen Einsatz auf sein Konto zu überweisen.
+|Actors                     |User
+|Trigger                    |Benutzer möchte einen Einsatz auf sein Konto überweisen.
+|Precondition(s)           a|Benutzer ist authentifiziert und hat ein aktives Konto.
+
+|Essential Steps           a|
+  1. Benutzer wählt die Option "Einsatz überweisen".
+  2. Benutzer gibt den Betrag und die Zahlungsdetails ein.
+  3. System verarbeitet die Überweisung und aktualisiert das Konto.
+
+|Extensions                 |Falls die Überweisung fehlschlägt, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0210>>
+|===
+
+[cols="1h, 3"]
+[[UC0220]]
+|===
+|ID                         |**<<UC0220>>**
+|Name                       |Kontoabbuchungen verwalten
+|Description                |Ein Benutzer soll seine Kontoabbuchungen verwalten können.
+|Actors                     |User
+|Trigger                    |Benutzer möchte die Abbuchungen auf seinem Konto überprüfen.
+|Precondition(s)           a|Benutzer ist authentifiziert und hat ein aktives Konto.
+
+|Essential Steps           a|
+  1. Benutzer wählt die Option "Kontoabbuchungen verwalten".
+  2. System zeigt die Liste der Abbuchungen an.
+  3. Benutzer kann Abbuchungen genehmigen oder ablehnen.
+
+|Extensions                 |Falls keine Abbuchungen vorhanden sind, wird eine entsprechende Nachricht angezeigt.
+|Functional Requirements    |<<F0220>>
+|===
+
+[cols="1h, 3"]
+[[UC0221]]
+|===
+|ID                         |**<<UC0221>>**
+|Name                       |Über fehlende Deckung benachrichtigen
+|Description                |Ein Benutzer soll benachrichtigt werden, wenn auf seinem Konto nicht genügend Deckung vorhanden ist.
+|Actors                     |User
+|Trigger                    |Ein Konto hat nicht genügend Deckung für eine Transaktion.
+|Precondition(s)           a|Benutzer hat ein aktives Konto.
+
+|Essential Steps           a|
+  1. System überprüft die Kontodeckung.
+  2. Falls die Deckung nicht ausreicht, wird eine Benachrichtigung an den Benutzer gesendet.
+
+|Extensions                 |-
+|Functional Requirements    |<<F0221>>
+|===
+
+[cols="1h, 3"]
+[[UC0222]]
+|===
+|ID                         |**<<UC0222>>**
+|Name                       |Gebühr erhoben
+|Description                |Ein Benutzer soll über erhobene Gebühren für Transaktionen informiert werden.
+|Actors                     |User
+|Trigger                    |Eine Transaktion mit Gebühren wird verarbeitet.
+|Precondition(s)           a|Benutzer ist authentifiziert und hat ein aktives Konto.
+
+|Essential Steps           a|
+  1. System verarbeitet die Transaktion und erhebt eine Gebühr.
+  2. Benutzer wird über die erhobene Gebühr informiert.
+
+|Extensions                 |Falls die Gebühr nicht erfolgreich erhoben werden kann, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0222>>
+|===
+
+[cols="1h, 3"]
+[[UC0230]]
+|===
+|ID                         |**<<UC0230>>**
+|Name                       |Finanzielle Situation bekommen
+|Description                |Ein Administrator soll die finanzielle Situation eines Benutzers einsehen können.
+|Actors                     |Administrator
+|Trigger                    |Administrator möchte die finanziellen Daten eines Benutzers überprüfen.
+|Precondition(s)           a|Benutzer ist authentifiziert und hat Administratorrechte.
+
+|Essential Steps           a|
+  1. Administrator wählt die Option "Finanzielle Situation bekommen".
+  2. System zeigt die finanziellen Daten des ausgewählten Benutzers an.
+
+|Extensions                 |Falls keine Daten vorhanden sind, wird eine entsprechende Nachricht angezeigt.
+|Functional Requirements    |<<F0230>>
+|===
+
+[cols="1h, 3"]
+[[UC0240]]
+|===
+|ID                         |**<<UC0240>>**
+|Name                       |Gewinn gutschreiben
+|Description                |Ein Gewinn soll dem Konto des Benutzers gutgeschrieben werden.
+|Actors                     |Administrator
+|Trigger                    |Ein Benutzer hat einen Gewinn erzielt.
+|Precondition(s)           a|Benutzer hat an einer Ziehung teilgenommen.
+
+|Essential Steps           a|
+  1. Administrator wählt die Option "Gewinn gutschreiben".
+  2. System schreibt den Gewinn auf das Konto des Benutzers gut.
+
+|Extensions                 |Falls die Gutschrift nicht erfolgreich ist, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0240>>
+|===
+
+
+// Gewinngemeinschaft
+[cols="1h, 3"]
+[[UC0300]]
+|===
+|ID                         |**<<UC0300>>**
+|Name                       |Gewinne anschauen
+|Description                |Ein Mitglied der Gewinngemeinschaft soll die Gewinne der Gemeinschaft einsehen können.
+|Actors                     |Gewinngemeinschaft Mitglieder
+|Trigger                    |Mitglied möchte die Gewinne der Gemeinschaft überprüfen.
+|Precondition(s)           a|Mitglied ist authentifiziert und Teil einer Gewinngemeinschaft.
+
+|Essential Steps           a|
+  1. Mitglied wählt die Option "Gewinne anschauen".
+  2. System zeigt die aktuellen Gewinne der Gewinngemeinschaft an.
+
+|Extensions                 |Falls keine Gewinne vorhanden sind, wird eine entsprechende Nachricht angezeigt.
+|Functional Requirements    |<<F0300>>
+|===
+
+[cols="1h, 3"]
+[[UC0310]]
+|===
+|ID                         |**<<UC0310>>**
+|Name                       |Gewinngemeinschaft treten
+|Description                |Ein authentifizierter Benutzer soll einer Gewinngemeinschaft beitreten können.
+|Actors                     |Authenticated User
+|Trigger                    |Benutzer möchte einer Gewinngemeinschaft beitreten.
+|Precondition(s)           a|Benutzer ist authentifiziert.
+
+|Essential Steps           a|
+  1. Benutzer wählt die Option "Gewinngemeinschaft treten".
+  2. Benutzer gibt die erforderlichen Informationen ein.
+  3. System bestätigt den Beitritt zur Gewinngemeinschaft.
+
+|Extensions                 |Falls die Informationen ungültig sind, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0310>>
+|===
+
+[cols="1h, 3"]
+[[UC0320]]
+|===
+|ID                         |**<<UC0320>>**
+|Name                       |Gewinngemeinschaft erstellen
+|Description                |Ein authentifizierter Benutzer soll eine Gewinngemeinschaft erstellen können.
+|Actors                     |Authenticated User
+|Trigger                    |Benutzer möchte eine Gewinngemeinschaft gründen.
+|Precondition(s)           a|Benutzer ist authentifiziert.
+
+|Essential Steps           a|
+  1. Benutzer wählt die Option "Gewinngemeinschaft erstellen".
+  2. Benutzer gibt die erforderlichen Informationen ein.
+  3. System erstellt die Gewinngemeinschaft und bestätigt die Gründung.
+
+|Extensions                 |Falls die Informationen ungültig sind, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0320>>
+|===
+
+[cols="1h, 3"]
+[[UC0321]]
+|===
+|ID                         |**<<UC0321>>**
+|Name                       |Gemeinschaftspasswort erhalten
+|Description                |Ein Benutzer erhält ein Passwort für die Gewinngemeinschaft.
+|Actors                     |Authenticated User
+|Trigger                    |Benutzer hat eine Gewinngemeinschaft erstellt.
+|Precondition(s)           a|Benutzer hat eine Gewinngemeinschaft erstellt.
+
+|Essential Steps           a|
+  1. System generiert ein Gemeinschaftspasswort.
+  2. Benutzer erhält das Passwort zur Verwendung in der Gewinngemeinschaft.
+
+|Extensions                 |-
+|Functional Requirements    |<<F0321>>
+|===
+
+[cols="1h, 3"]
+[[UC0330]]
+|===
+|ID                         |**<<UC0330>>**
+|Name                       |Liste der Gewinngemeinschaften ansehen
+|Description                |Ein Benutzer soll die Liste der verfügbaren Gewinngemeinschaften einsehen können.
+|Actors                     |User
+|Trigger                    |Benutzer möchte die verfügbaren Gewinngemeinschaften überprüfen.
+|Precondition(s)           a|Benutzer ist authentifiziert.
+
+|Essential Steps           a|
+  1. Benutzer wählt die Option "Liste der Gewinngemeinschaften ansehen".
+  2. System zeigt die Liste der verfügbaren Gewinngemeinschaften an.
+
+|Extensions                 |Falls keine Gewinngemeinschaften vorhanden sind, wird eine entsprechende Nachricht angezeigt.
+|Functional Requirements    |<<F0330>>
+|===
+
+[cols="1h, 3"]
+[[UC0340]]
+|===
+|ID                         |**<<UC0340>>**
+|Name                       |Mitglied aufnehmen
+|Description                |Ein Organisator der Gewinngemeinschaft soll ein neues Mitglied aufnehmen können.
+|Actors                     |Gewinngemeinschaft Organisator
+|Trigger                    |Organisator möchte ein neues Mitglied hinzufügen.
+|Precondition(s)           a|Organisator ist authentifiziert und Teil einer Gewinngemeinschaft.
+
+|Essential Steps           a|
+  1. Organisator wählt die Option "Mitglied aufnehmen".
+  2. Organisator gibt die Informationen des neuen Mitglieds ein.
+  3. System bestätigt die Aufnahme des neuen Mitglieds.
+
+|Extensions                 |Falls die Informationen ungültig sind, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0340>>
+|===
+
+[cols="1h, 3"]
+[[UC0341]]
+|===
+|ID                         |**<<UC0341>>**
+|Name                       |Mitglieder Passwort mitteilen
+|Description                |Ein Organisator soll das Passwort eines neuen Mitglieds mitteilen können.
+|Actors                     |Gewinngemeinschaft Organisator
+|Trigger                    |Organisator hat ein neues Mitglied aufgenommen.
+|Precondition(s)           a|Organisator ist authentifiziert und hat ein neues Mitglied aufgenommen.
+
+|Essential Steps           a|
+  1. Organisator wählt die Option "Mitglieder Passwort mitteilen".
+  2. System sendet das Passwort an das neue Mitglied.
+
+|Extensions                 |Falls die Mitteilung fehlschlägt, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0341>>
+|===
+
+[cols="1h, 3"]
+[[UC0350]]
+|===
+|ID                         |**<<UC0350>>**
+|Name                       |Aus Gewinngemeinschaft entfernen
+|Description                |Ein Benutzer soll aus einer Gewinngemeinschaft entfernt werden können.
+|Actors                     |User
+|Trigger                    |Benutzer möchte die Gewinngemeinschaft verlassen.
+|Precondition(s)           a|Benutzer ist authentifiziert und Teil einer Gewinngemeinschaft.
+
+|Essential Steps           a|
+  1. Benutzer wählt die Option "Aus Gewinngemeinschaft entfernen".
+  2. System entfernt den Benutzer aus der Gewinngemeinschaft und bestätigt dies.
+
+|Extensions                 |Falls das Entfernen nicht erfolgreich ist, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0350>>
+|===
+
+[cols="1h, 3"]
+[[UC0370]]
+|===
+|ID                         |**<<UC0370>>**
+|Name                       |Tipp ändern
+|Description                |Ein Mitglied der Gewinngemeinschaft soll seinen Tipp ändern können.
+|Actors                     |Gewinngemeinschaft Mitglieder
+|Trigger                    |Mitglied möchte seinen Tipp anpassen.
+|Precondition(s)           a|Mitglied ist authentifiziert und Teil einer Gewinngemeinschaft.
+
+|Essential Steps           a|
+  1. Mitglied wählt die Option "Tipp ändern".
+  2. Mitglied gibt die neuen Tipp-Informationen ein.
+  3. System bestätigt die Änderung des Tipps.
+
+|Extensions                 |Falls die Eingabe ungültig ist, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0370>>
+|===
+
+[cols="1h, 3"]
+[[UC0360]]
+|===
+|ID                         |**<<UC0360>>**
+|Name                       |Tipp abgeben
+|Description                |Ein Organisator der Gewinngemeinschaft soll einen Tipp abgeben können.
+|Actors                     |Gewinngemeinschaft Organisator
+|Trigger                    |Organisator möchte den Tipp für die Gemeinschaft abgeben.
+|Precondition(s)           a|Organisator ist authentifiziert und Teil einer Gewinngemeinschaft.
+
+|Essential Steps           a|
+  1. Organisator wählt die Option "Tipp abgeben".
+  2. Organisator gibt die Tipp-Informationen ein.
+  3. System bestätigt die Abgabe des Tipps.
+
+|Extensions                 |Falls die Abgabe fehlschlägt, wird eine Fehlermeldung angezeigt.
+|Functional Requirements    |<<F0360>>
+|===
+
+
+== Funktionale Anforderungen
+
+=== Muss-Kriterien
+Was das zu erstellende Programm auf alle Fälle leisten muss.
+[cols="1, 1, 2, 4"]
+|===
+|ID           | Version  | Name                                   | Description
+| [F0010]    |  v0.1    | Anmelden                               | Das System soll Authenticated Users die Möglichkeit geben, sich einzuloggen.
+| [F0011]    |  v0.1    | Abmelden                               | Ein Authenticated User soll sich vom System abmelden können.
+| [F0012]    |  v0.1    | Registrieren                           | Ein Unauthenticated User soll in der Lage sein, ein Konto für sich selbst zu erstellen.
+| [F0110]    |  v0.1    | Spielkalendar ansehen                  | Der Spielkalender ist für den Authenticated User immer sichtbar.
+| [F0120]    |  v0.1    | Tippschein abgeben                     | Nur ein Authenticated User kann einen gültigen Tippschein abgeben. Ein Tippschein kann nur gültig sein, wenn er korrekt ausgefüllt ist.
+| [F0121]    |  v0.1    | Fußballtoto abgeben                    | Das System soll dem Authenticated User ermöglichen eine Art vom Tippschein [UC0120] abzugeben, nämlich für den Fußballspiele. Dies ist wieder nur für Authenticated User möglich.
+| [F0122]    |  v0.1    | Zahlenlotto abgeben                    | Die Möglichkeit, einen Tippschein [UC0120] für das Zahlenlotto abzugeben, ist nur für den Authenticated User möglich.
+| [F0123]    |  v0.1    | Dauertippschein abgeben                | Eine andere Möglichkeit wäre ein Dauertippschein, sodass die Authenticated User in jeder Ziehung regelmäßig spielen können.
+| [F0200]    |  v0.1    | Konto einrichten                       | Die Möglichkeit, ein Finanzkonto zu einrichten, das Ihnen die tatsächliche Möglichkeit bietet, eine Wette zu platzieren und Ihren Gewinn einzusammeln, steht nur einem Authenticated User zur Verfügung.
+| [F0210]    |  v0.1    | Einsatz überweisen                     | Ein Authenticated User kann eine Wette plazieren, indem er den Geldbetrag überweist, der im Spiel verwendet wird.
+| [F0220]    |  v0.1    | Kontoabbuchungen verwalten             | Der Benutzer kann immer über den Status seines Kontos auf dem Laufenden bleiben.
+| [F0221]    |  v0.1    | Über fehlende Deckung benachrichten    | Ein Benutzer würde über einen nicht ausreichender Abdeckung benachrichtigt. Dieser Service erweitert die Übersicht über die Abhebungen des Kontos.[UC0220] Und es beinhaltet eine Gebühr, die Sie zahlen müssen.[UC0222]
+| [F0222]    |  v0.1    | Gebühr erhoben                         | Für jede Meldung eines fehlenden Deckung wird eine Gebühr in Höhe von 2€ erhoben.
+| [F0230]    |  v0.1    | Finanzielle Situation bekommen         | Der Administrator ist der einzige, der einen Überblick über die finanzielle Situation eines Authenticated Users haben kann.
+| [F0240]    |  v0.1    | Gewinn gutschreiben                    | Im Falle eines Gewinns kann der Admin den gewonnenen Betrag des Users in der Users Konto gutschreiben. Dies erweitert den Service „Gewinn abfragen“ [UC0130].
+| [F0300]    |  v0.1    | Gewinne anschauen                      | Das System soll nur den Mitgliedern eines Gewinngemeinschafts die Möglichkeit bieten, die Gewinne der Gemeinschaft einzusehen.
+| [F0310]    |  v0.1    | Gewinngemeinschaft treten              | Die Möglichkeit zur Teilnahme an einer Gewinngemeinschaft besteht nur für einen Authenticated User.
+| [F0320]    |  v0.1    | Gewinngemeinschaft erstellen           | Der Service, eine Gewinngemeinschaft zu erstellen, steht nur einem Authenticated User zur Verfügung, der sowohl Mitglieder als auch Organisator ist.
+| [F0321]    |  v0.1    | Gemeinschaftspasswort erhalten         | Der User (muss authentifiziert sein), der die Gewinngemeinschaft eröffnet, erhält das Gemeinschaftspasswort. Dieser Service ist bei der Eröffnung einer Gewinngemeinschaft beinhaltet.
+| [F0330]    |  v0.1    | Liste der Gewinngemeinschaften ansehen | Das System sollte eine Liste der Gewinngemeinschaften in der Lotterie bereitstellen, die für einen Authenticated User einsehbar ist.
+| [F0340]    |  v0.1    | Mitglied aufnehmen                     | Die Möglichkeit, neue Mitglieder in die Gewinngemeinschaft aufzunehmen, erhält derjenige Benutzer, der die Gewinngemeinschaft erstellt hat, also die Gewinngemeinschaft Organisator.
+| [F0341]    |  v0.1    | Mitglied Passwort mitteilen            | Damit der Organisator neue Mitglieder aufnehmen kann, soll er in die Lage sein, ihnen das Gewinngemeinschaft-Passwort zu geben. So werden sie Mitglieder. Zum Service der Aufnahme neuer Mitglieder gehört die Übergabe des Passwortes.
+| [F0350]    |  v0.1    | Aus Gewinngemeinschaft entfernen       | Wenn eine Mitglied 10 Mal benachrichtigt wurde, wird er aus der Gewinngemeinschaft entfernt oder der Mitglieder kann auf Wunsch austreten. Hierbei handelt es sich um eine Erweiterung des Services zur Benachrichtigung über fehlende Deckung.
+| [F0360]    |  v0.1    | Tipp abgeben                           | Eine ausschließlich für den Organisator erbrachte Dienstleistung ist die Abgabe der Tipp.
+| [F0370]    |  v0.1    | Tipp ändern                            | Andererseits haben alle Mitgliedern die Möglichkeit, die Tipp zu ändern (bis zum möglichen Zeitpunkt).
+
+|===
+
+=== Kann-Kriterien
+Anforderungen die das Programm leisten können soll, aber für den korrekten Betrieb entbehrlich sind.
+[cols="1, 1, 2, 4"]
+|===
+|ID          | Version  | Name                      | Description
+| [F0130]    |  v0.1    | Gewinn abfragen                        | Ein Authenticated User kann die Gewinne abfragen und das System zeigt den Status und die Höhe der Gewinne an.
+| [F0140]    |  v0.1    | Kundenwetten überwachten               | Ein Service, der nur dem Administrator (Admin) zur Verfügung steht, um die von den Authenticated Users getätigten Wetten zu überwachen.
+| [F0100]    |  v0.1    | Live-Ziehung ansehen                | Ein Authenticated User soll die Möglichkeit haben, die Ziehung der Zahlen Live zu sehen.
+| [F0400]    |  v0.1    | Personalised Notification | Ermöglichen Sie Benutzern, Benachrichtigungen über bevorstehende Ziehungen, Erinnerungen zur Überprüfung ihrer Tickets usw. zu erhalten.
+| [F0410]    |  v0.1    | History                   | Bereitstellung von Statistiken zu ihren vergangenen Wetten, Gewinnen und Verlusten für die Benutzer sowie allgemeine Einblicke in die Leistung.
+| [F0430]    |  v0.1    | Language Support          | Die mindestens zwei Sprachen (Deutsch und Englisch) machen die App etwas attraktiver und heißen mehr Benutzer willkommen.
+| [F0440]    |  v0.1    | Random Selection          | Eine Option für Authenticated Users zur schnellen Auswahl von Zufallszahlen, wenn sie diese nicht manuell auswählen möchten.
+| [F0470]    |  v0.1    | Live Game Update          | Ein Service, der Echtzeit-Updates für laufende Spiele anzeigt, auf die Authenticated Users gewettet haben, mit Ergebnisbenachrichtigungen.
+
+|===
+== Nicht-Funktionale Anforderungen
+
+=== Qualitätsziele
+
+Dokumentieren Sie in einer Tabelle die Qualitätsziele, welche das System erreichen soll, sowie deren Priorität.
+
+1 = Not Important .. 5 = Very Important
+[width="40%"]
+[cols="40, 12, 12, 12, 12, 12"]
+|===
+| Quality Demand   | 1 | 2 | 3 | 4 | 5
+| Availability     |   |   |   |   | X
+| Security         |   |   |   |   | X
+| Maintainability  |   |   |   | X |
+| Usability        |   | X |   |   |
+| Confidentiality  |   |   |   | X |
+
+|===
+
+[cols="1, 1, 2, 4"]
+|===
+|ID          | Version  | Name                          | Description
+|[NF0010]    |v0.1      | Availability - update         | Das System soll mindestens 95% uptime erreichen.
+|[NF0020]    |v0.1      | Security - Passwortsicherheit | Die Passwörter sollen in HashWerten gespeichert werden, um die Tippscheinsicherheit und die Diebstahlsicherheit zu gewährleisten.
+|[NF0030]    |v0.1      | Maintainability               | Bei Wartung Wir könnten die neuesten Ziehungsergebnisse in einer lokalen Text-Datei  speichern, um sie bei Wiederherstellung der Website auszulesen und einzuspielen.
+|[NF0040]    |v0.1      | Usability                     | Die Nutzer können leicht navigieren und sicher wetten.
+|[NF0050]    |v0.1      | Confidentiality               | Alle persönlichen Daten und Transaktionen der Nutzer sind geschützt und vor unbefugtem Zugriff gesichert.
+|===
+
+=== Konkrete Nicht-Funktionale Anforderungen
+
+Beschreiben Sie Nicht-Funktionale Anforderungen, welche dazu dienen, die zuvor definierten Qualitätsziele zu erreichen.
+Achten Sie darauf, dass deren Erfüllung (mindestens theoretisch) messbar sein muss.
+
+[cols="1, 2, 3"]
+|===
+|ID         | Name            | Description
+|[NF0020]   | MFA             | Implementierung der Multi-Faktor-Authentifizierung (MFA) für alle User-Acccounts.
+|[NF0040]   | User-Friendly   | Benutzer sollten in der Lage sein, Kernaktionen mit wenigen Klicks auszuführen.
+|[NF0050]   | Encrypted-Data  | Alle sensiblen Daten der Benutzer müssen verschlüsselt und sicher sein.
+|===
+
+== GUI Prototyp
+
+In diesem Kapitel soll ein Entwurf der Navigationsmöglichkeiten und Dialoge des Systems erstellt werden.
+Idealerweise entsteht auch ein grafischer Prototyp, welcher dem Kunden zeigt, wie sein System visuell umgesetzt werden soll.
+Konkrete Absprachen - beispielsweise ob der grafische Prototyp oder die Dialoglandkarte höhere Priorität hat - sind mit dem Kunden zu treffen.
+
+=== Dialogbeschreibung
+
+[[StartNA]]
+image::./models/analysis/Startseite nonadmin.png[Homepage nonadmin users, 100%, 100%, pdfwidth=100%, title= "Startseite als regulärer Benutzer", align=center]
+
+[[StartA]]
+image::./models/analysis/Startseite admin.png[Homepage admins, 100%, 100%, pdfwidth=100%, title= "Startseite als Administrator", align=center]
+
+[[Navi649]]
+image::./models/analysis/Navigationsleiste 6aus49.png[Navigation menu 6aus49, 100%, 100%, pdfwidth=100%, title= "Navigationsmenü 6 aus 49", align=center]
+
+[[NaviFT]]
+image::./models/analysis/Navigationsleiste Fußballtoto.png[Navigation menu Fußballtoto, 100%, 100%, pdfwidth=100%, title= "Navigationsmenü Fußballtoto", align=center]
+
+[[NaviP]]
+image::./models/analysis/Navigationsleiste Profil.png[Navigation menu profile, 100%, 100%, pdfwidth=100%, title= "Navigationsmenü Profil", align=center]
+
+[[LaZ]]
+image::./models/analysis/aktuelle Zahlen 6aus49.png[Recent lottery numbers, 100%, 100%, pdfwidth=100%, title= "6 aus 49 aktuelle Zahlen", align=center]
+
+[[LSFD]]
+image::./models/analysis/Spielfelder 6aus49.png[lottery ticket, 100%, 100%, pdfwidth=100%, title= "Spielfelderübersicht", align=center]
+
+[[LSF]]
+image::./models/analysis/Spielfeld 6aus49.png[lottery ticket details, 100%, 100%, pdfwidth=100%, title= "6 aus 49 Spielfeld im Detail", align=center]
+
+[[SFT]]
+image::./models/analysis/Startseite Fußballtoto.png[Homepage Fußballtoto, 100%, 100%, pdfwidth=100%, title= "Startseite Fußballtoto", align=center]
+
+[[FTS]]
+image::./models/analysis/Fußballtoto spielen.png[Fußballtoto details, 100%, 100%, pdfwidth=100%, title= "Fußballtoto Spieldetails", align=center]
+
+[[GUGF]]
+image::./models/analysis/user gemeinschaftsmitglied false.png[community page as nonmember, 100%, 100%, pdfwidth=100%, title= "Gemeinschaftsseite als Mitglied keiner Gesellschaft", align=center]
+
+[[GUGT]]
+image::./models/analysis/user gemeinschaftsmitglied true.png[community page as member, 100%, 100%, pdfwidth=100%, title= "Gemeinschaftsseite als Mitglied einer+ Gesellschaft", align=center]
+
+[[GUGTUS]]
+image::./models/analysis/user gemeinschaftsmitglied true user ausgewählt.png[community page as member member selected, 100%, 100%, pdfwidth=100%, title= "Gemeinschaftsseite als Mitglied einer+ Gesellschaft, Mitglied ausgewählt", align=center]
+
+[[PU]]
+image::./models/analysis/Benutzerprofil.png[user profile, 100%, 100%, pdfwidth=100%, title= "eigenes Benutzerprofil", align=center]
+
+[[PUA]]
+image::./models/analysis/Benutzerkonto.png[user account, 100%, 100%, pdfwidth=100%, title= "eigenes Benutzerkonto", align=center]
+
+[[GGA]]
+image::./models/analysis/gemeinschaftsadmin Gemeinschaft.png[community page community creator, 100%, 100%, pdfwidth=100%, title= "Gemeinschaftsseite als Gemeinschaftsersteller", align=center]
+
+[[GGAUS]]
+image::./models/analysis/gemeinschaftsadmin Gemeinschaft user ausgewählt.png[community page community creator member selected, 100%, 100%, pdfwidth=100%, title= "Gemeinschaftsseite als Gemeinschaftsersteller, Mitglied ausgewählt", align=center]
+
+[[AC]]
+image::./models/analysis/admin Gemeinschaft.png[community page administrator, 100%, 100%, pdfwidth=100%, title= "Gemeinschaftsseite als Administrator", align=center]
+
+[[AU]]
+image::./models/analysis/admin Benutzer.png[user page administrator, 100%, 100%, pdfwidth=100%, title= "Benutzerseite als Administrator", align=center]
+
+[[AF]]
+image::./models/analysis/admin Fußballtoto.png[Fußballtoto page administrator, 100%, 100%, pdfwidth=100%, title= "Fußballtoto-Seite als Administrator (6aus49 äquivalent)", align=center]
+
+== Datenmodell
+
+=== Überblick: Klassendiagramm
+[[AKD]]
+image::./models/analysis/Klassendiagramm.png[Analyseklassendiagramm, 100%, 100%, pdfwidth=100%, title= "Analyseklassendiagramm der {project_name}", align=center]
+
+=== Klassen und Enumerationen
+Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Klassen/Enumerationen dar. Jede Klasse und Enumeration wird in Form eines Glossars textuell beschrieben. Zusätzlich werden eventuellen Konsistenz- und Formatierungsregeln aufgeführt.
+
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|Klasse/Enumeration |Beschreibung
+| Lottery(Lotterie)                                 | Zentrale Klasse, repräsentiert die Lotterie.            
+| LotteryBank(LotterieBank)                             | Repräsentiert die Abbuchungen und Auszahlungen der Lotterie von/an Kundenkonten. 
+| UnauthenticatedUser (UnauthentifizierterNutzer)                                    | Allgemeine Darstellung einer realen Person.             
+| AuthenticatedUser (AuthentifizierterNutzer)                         | Darstellung einer realen Person im System, wenn sich diese registriert. 
+| Admin                                   | Eine als Administrator im System registrierte, reale Person. 
+| BankAccount (Bankkonto)                            | Bankkonto einer registrierten realen Person, in dem das Geld der Person verwaltet wird. 
+| BettingCommunity (Gewinngemeinschaft)                       | Eine Gewinngemeinschaft. Registrierte Personen können sich ihr anschließen und an gemeinsamen Wetten teilnehmen. 
+| Gambling (Glücksspiel)                               | Eine allgemeine Repräsentation eines Glücksspiels; sie gibt Grundanforderungen und Funktionalitäten der Glücksspiele an. 
+| Lotto                                   | Stellt das Glücksspiel Lotto dar.                        
+| Soccertoto (Fußballtoto)                             | Stellt das Glücksspiel Fußballtoto dar. 
+| Status                                  | Stellt den Zustand eines Glücksspiels dar. + 
+OPEN: Das Glücksspiel ist offen und man kann tippen. + 
+PLAYING: Das spiel ist am laufen, man kann nicht mehr tippen. + 
+CLOSED: Das Glücksspiel ist abgeschlossen, man kann nicht mehr tippen und es gibt Resultate.              
+| BettingSlip (Tippschein)                            | Darstellung eines Tippscheins mit gewissen Mindestanforderungen. 
+| LottoBettingSlip (LottoTippschein)                       | Ein Tippschein, der weiterhin Informationen über die getippten Lottozahlen beinhaltet. 
+| SingleBettingSlip (EinzelTippschein)                      | Ein Lotto-Tippschein, der einen einmaligen Tipp beinhaltet. 
+| PermanentBettingSlip (DauerTippschein)                   | Ein Dauertippschein für Lotto; er wird in einem gewissen Zeitraum wöchentlich ausgeführt. 
+| Duration (Dauer)                                 | Speichert den Zeitraum eines Dauertippscheins für Lotto. +
+MONTHLY: Der Zeitraum beträgt einen Monat. + 
+SEMIANNUAL: Der Zeitraum beträgt ein halbes Jahr. +
+ANNUALY: Der Zeitraum beträgt ein Jahr.
+| CommunityBettingSlip (GewinngemeinschaftsTippschein)                   | Ein allgemeiner Tippschein für eine Gewinngemeinschaft. Er beinhaltet Informationen über die Personen, die teilnehmen, und ihre Einsätze, die jeder Tippschein einer Gemeinschaft besitzen muss. 
+| CommunityLottoBettingSlip (GewinngemeinschaftsLottoTippschein)             | Ein Lotto-Tippschein einer Gewinngemeinschaft.         
+| CommunitySoccerTotoBettingSlip (GewinngemeinschaftsFußballtotoTippschein)        | Ein Fußballtoto-Tippschein einer Gewinngemeinschaft.    
+
+|===
+
+== Akzeptanztestfälle
+Mithilfe von Akzeptanztests wird geprüft, ob die Software die funktionalen Erwartungen und Anforderungen im Gebrauch
+erfüllt.
+Diese sollen und können aus den Anwendungsfallbeschreibungen und den UML-Sequenzdiagrammen abgeleitet werden.
+D.h., pro (komplexen) Anwendungsfall gibt es typischerweise mindestens ein Sequenzdiagramm (, welches ein
+Szenarium beschreibt). Für jedes Szenarium sollte es einen Akzeptanztestfall geben. Listen Sie alle Akzeptanztestfälle in tabellarischer Form auf.
+Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumenten (z.B. im Test-Plan) referenzieren zu können.
+
+:Pre: Precondition(s)
+:Event: Event
+:Result: Expected Result
+
+[[AT0010]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT0010>>
+|Use Case      |<<UC0010>>
+|{Pre}        a|Der Benutzer ist nicht authentifiziert.
+|{Event}      a|Ein Benutzer greift auf den Anmeldebildschirm zu, gibt die Anmeldedaten eines bestehenden Benutzers (Bilbo, 1234) ein und drückt "Anmelden".
+|{Result}     a|
+- Der Benutzer ist jetzt als "Bilbo" authentifiziert.
+- Der Benutzer wird auf einen bunten Willkommensbildschirm umgeleitet, der eine personalisierte Nachricht anzeigt: "Willkommen zurück, Hans der Held!".
+- Der Benutzer hat jetzt Zugriff auf alle Funktionen, die für Benutzer mit der Rolle "Kunde" zugänglich sind.
+|===
+
+[[AT0011]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT0011>>
+|Use Case      |<<UC0011>>
+|{Pre}        a|Ein authentifizierter Benutzer nutzt das System.
+|{Event}      a|Der authentifizierte Benutzer drückt "Ausloggen".
+|{Result}     a|
+- Er wird nicht mehr authentifiziert.
+- Er verliert den Zugriff auf alle Funktionen, die nur für authentifizierte Benutzer oder bestimmte Rollen geöffnet sind und wird mit einem traurigen Emoji verabschiedet.
+|===
+
+[[AT0020]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT0020>>
+|Use Case      |<<UC0020>>
+|{Pre}        a|Ein nicht authentifizierter Benutzer nutzt das System.
+|{Event}      a|Der nicht authentifizierte Benutzer drückt "Registrieren" in der Navigationsleiste und gibt die folgenden Informationen ein:
+
+- _Name:_ Frodo
+- _Passwort:_ 12345
+- _Adresse:_ Hobbiton 1
+
+Schließlich drückt er "Registrieren", um die Informationen zu senden.
+|{Result}     a|
+- Ein neuer Benutzer mit den bereitgestellten Daten wird erstellt.
+- Es ist möglich, sich mit den Anmeldedaten des erstellten Benutzers zu authentifizieren.
+- Der nicht authentifizierte Benutzer bleibt nicht authentifiziert und wird auf die fröhliche Startseite des Hobbit-Shops umgeleitet.
+|===
+
+[[AT0022]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT0022>>
+|Use Case      |<<UC0122>>
+|{Pre}        a|Der Benutzer ist authentifiziert und hat ausreichend Guthaben.
+|{Event}      a|Der Spieler wählt "Zahlenlotto abgeben", gibt die Lottozahlen (1, 2, 3, 4, 5, 6) und den Einsatz (10 Euro) ein und klickt auf "Abgeben".
+|{Result}     a|
+- Das System bestätigt die Abgabe des Zahlenlotto-Scheins.
+- Der Spieler erhält eine Bestätigungsnachricht, dass der Tippschein erfolgreich eingereicht wurde.
+|===
+
+[[AT0023]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT0023>>
+|Use Case      |<<UC0130>>
+|{Pre}        a|Der Benutzer ist authentifiziert und hat an der Ziehung teilgenommen.
+|{Event}      a|Der Benutzer wählt die Option "Gewinn abfragen".
+|{Result}     a|
+- Das System zeigt den aktuellen Gewinnstatus des Spielers an.
+- Falls keine Ziehung durchgeführt wurde, wird eine entsprechende Nachricht angezeigt.
+|===
+
+[[AT0024]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT0024>>
+|Use Case      |<<UC0340>>
+|{Pre}        a|Der Organisator ist authentifiziert und Teil einer Gewinngemeinschaft.
+|{Event}      a|Der Organisator wählt "Mitglied aufnehmen" und gibt die Informationen des neuen Mitglieds (Name, E-Mail) ein.
+|{Result}     a|
+- Das System bestätigt die Aufnahme des neuen Mitglieds in die Gewinngemeinschaft.
+- Der neue Mitglied erhält eine Willkommensnachricht.
+|===
+
+
+== Glossar
+Sämtliche Begriffe, die innerhalb des Projektes verwendet werden und deren gemeinsames Verständnis aller beteiligten
+Stakeholder essenziell ist, sollten hier aufgeführt werden.
+Insbesondere Begriffe der zu implementierenden Domäne wurden bereits beschrieben, jedoch gibt es meist mehr Begriffe, die einer Beschreibung bedürfen. +
+Beispiel: Was bedeutet "Kunde"? Ein Nutzer des Systems? Der Kunde des Projektes (Auftraggeber)?
+
+- Fußballtoto: Sportwetten bezogen auf Fußball.
+- Gewinngemeinschaft: Gruppe von Menschen, die gemeinsam spielen und den Gewinn Anteilig aufteilen.
+- Einsatz: Geldbetrag, der für eine Wette, Ein Lotto-Spiel o.Ä. aufgewendet wurde.
+- Lotterie: Laden, wo man Lottoscheine kaufen kann.
+- Kunde: Lottermann, derjenige, der das System in Auftrag gegeben hat.
+- User (authentifiziert): ist im System registriert. 
+- User (unauthentifiziert): nutzt Website, ... ohne im System registriert zu sein.
+- Admin:  Eine als Administrator im System registrierte, reale Person, hat Zugriff auf die User-Profile
+
+
+
+== Offene Punkte
+Offene Punkte werden entweder direkt in der Spezifikation notiert. Wenn das Pflichtenheft zum finalen Review vorgelegt wird, sollte es keine offenen Punkte mehr geben.

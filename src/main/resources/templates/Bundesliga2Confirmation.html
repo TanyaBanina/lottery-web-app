@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/totoForm.css}">
+    <title>Confirmation</title>
+    <style>
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .result-table tr {
+            border-bottom: 1px solid #ccc;
+        }
+
+        .result-table td {
+            padding: 10px;
+        }
+
+        .choice-container {
+            display: inline-block;
+            background: #4caf50;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="~{layout :: topbar}"></div>
+    <h1>Bestätigung</h1>
+    <div class="Game__container">
+        <h3 class="Game__header">
+            <span>Ihre Tipps für die 2. Bundesliga:</span>
+        </h3>
+        <table class="result-table">
+            <tr th:each="entry : ${predictions}">
+                <td>
+                    <strong th:text="${entry.key}"></strong>
+                </td>
+                <td>
+                    <span th:if="${entry.value} == '1'">Team A gewinnt</span>
+                    <span th:if="${entry.value} == '0'">Unentschieden</span>
+                    <span th:if="${entry.value} == '2'">Team B gewinnt</span>
+                </td>
+            </tr>
+        </table>
+        <form action="/bundesliga2">
+            <button type="submit" class="Button--primary">Neues Spiel</button>
+        </form>
+    </div>
+</body>
+</html>

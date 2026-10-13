@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Toto Statistik</title>
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/totoStatistik.css}" />
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+
+<h1>Toto Statistik</h1>
+<p>Hier können Sie als Admin die Statistiken für Toto-Wetten einsehen.</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Datum der Ziehung</th>
+        <th>Gesamt Einsätze (Revenue)</th>
+        <th>Gesamt Auszahlungen (Payout)</th>
+        <th>Anzahl der Scheine (Slip Count)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="entry : ${statisticsByDate}">
+        <td th:text="${entry.key}"></td>
+        <td th:text="${entry.value.revenue}"></td>
+        <td th:text="${entry.value.payout}"></td>
+        <td th:text="${entry.value.slipCount}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
+

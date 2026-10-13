@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Toto Results</title>
+</head>
+<body>
+<h1>Toto Slips</h1>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>League</th>
+        <th>Bet Amount</th>
+        <th>Winning Amount</th>
+        <th>Status</th>
+        <th>Draw Date</th>
+        <th>Community ID</th>
+    </tr>
+    <tr th:each="slip : ${slips}">
+        <td th:text="${slip.id}"></td>
+        <td th:text="${slip.league}"></td>
+        <td th:text="${slip.betAmount}"></td>
+        <td th:text="${slip.winningAmount}"></td>
+        <td th:text="${slip.status}"></td>
+        <td th:text="${slip.drawDate}"></td>
+        <td th:text="${slip.communityId}"></td>
+    </tr>
+</table>
+</body>
+</html>
+

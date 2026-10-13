@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <title>Gutschein Details</title>
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+<div class="voucher-container">
+    <div class="voucher-box">
+<h1>Ihr Gutschein wurde erfolgreich erstellt!</h1>
+
+<p>Hier sind die Details zu Ihrem Gutschein:</p>
+<ul>
+    <li>Betrag: <span th:text="${voucher.amount}">10</span> €</li>
+    <li>Gutscheincode: <span th:text="${voucher.voucherCode}">XYZ123ABC</span></li>
+</ul>
+
+<p>Bitte geben Sie diesen Code an den gewünschten Empfänger weiter.</p>
+
+<a th:href="@{/konto}">Zurück zum Konto</a>
+</div>
+</div>
+</body>
+</html>

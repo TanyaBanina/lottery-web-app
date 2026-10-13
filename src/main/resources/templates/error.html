@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <title>Error-Page</title>
+</head>
+<body>
+<div class="error-page">
+<!-- TopBar -->
+<div class="error-topbar">
+    Ein Fehler ist aufgetreten
+</div>
+
+    <!-- Fehlerbox -->
+    <div class="error-box">
+        <h1>Ein Fehler ist aufgetreten</h1>
+        <p><strong>Status:</strong> <span th:text="${status}"></span></p>
+        <p><strong>Nachricht:</strong> <span th:text="${message}"></span></p>
+        <p><strong>Pfad:</strong> <span th:text="${path}"></span></p>
+        <button onclick="window.location.href='/'">Zurück zur Startseite</button>
+    </div>
+</div>
+</body>
+</html>

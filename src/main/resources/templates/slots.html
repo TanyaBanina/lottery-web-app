@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lotto 6 aus 49</title>
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" href="/resources/css/lottoForm.css">
+    <link rel="stylesheet" href="/resources/css/slots.css">
+
+</head>
+<body>
+    <div th:replace="~{layout :: topbar}"></div>
+
+<div class="Game__container">
+    <h3 class="Game__header">Ihr Spielfeld (6 aus 49)</h3>
+    <div th:if="${message != null}" class="message" th:text="${message}"></div>
+    <div th:if="${error != null}" class="error" th:text="${error}"></div>
+
+    <div style="display: flex;">
+        <div class="slots-container">
+            <form action="/spielen/1" method="get">
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="slot"
+                        name="slot" value="1" th:text="'Slot 1'"
+                        th:attr="name='betId', value=${betId}">1</button>
+            </form>
+
+            <form action="/spielen/2" method="get">
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="slot"
+                        th:classappend="${slotId >= 2 ? '' : 'disabled'}"
+                        th:disabled="${slotId < 2}"
+                        name="slot" value="2" th:text="'Slot 2'"
+                        th:attr="name='betId', value=${betId}">2</button>
+            </form>
+
+            <form action="/spielen/3" method="get">
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="slot"
+                        th:classappend="${slotId >= 3 ? '' : 'disabled'}"
+                        th:disabled="${slotId < 3}"
+                        name="slot" value="3" th:text="'Slot 3'"
+                        th:attr="name='betId', value=${betId}">3</button>
+            </form>
+
+            <form action="/spielen/4" method="get">
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="slot"
+                        th:classappend="${slotId >= 4 ? '' : 'disabled'}"
+                        th:disabled="${slotId < 4}"
+                        name="slot" value="4" th:text="'Slot 4'"
+                        th:attr="name='betId', value=${betId}">4</button>
+            </form>
+
+            <form action="/spielen/5" method="get">
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="slot"
+                        th:classappend="${slotId >= 5 ? '' : 'disabled'}"
+                        th:disabled="${slotId < 5}"
+                        name="slot" value="5" th:text="'Slot 5'"
+                        th:attr="name='betId', value=${betId}">5</button>
+            </form>
+
+            <form action="/spielen/6" method="get">
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="slot"
+                        th:classappend="${slotId >= 6 ? '' : 'disabled'}"
+                        th:disabled="${slotId < 6}"
+                        name="slot" value="6" th:text="'Slot 6'"
+                        th:attr="name='betId', value=${betId}">6</button>
+            </form>
+
+            <form action="/spielen/7" method="get">
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="slot"
+                        th:classappend="${slotId >= 7 ? '' : 'disabled'}"
+                        th:disabled="${slotId < 7}"
+                        name="slot" value="7" th:text="'Slot 7'"
+                        th:attr="name='betId', value=${betId}">7</button>
+            </form>
+
+            <form action="/spielen/8" method="get">
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="slot"
+                        th:classappend="${slotId >= 8 ? '' : 'disabled'}"
+                        th:disabled="${slotId < 8}"
+                        name="slot" value="8" th:text="'Slot 8'"
+                        th:attr="name='betId', value=${betId}">8</button>
+            </form>
+
+            <form action="/spielen/9" method="get">
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="slot"
+                        th:classappend="${slotId >= 9 ? '' : 'disabled'}"
+                        th:disabled="${slotId < 9}"
+                        name="slot" value="9" th:text="'Slot 9'"
+                        th:attr="name='betId', value=${betId}">9</button>
+            </form>
+
+            <form action="/spielen/10" method="get">
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="slot"
+                        th:classappend="${slotId >= 10 ? '' : 'disabled'}"
+                        th:disabled="${slotId < 10}"
+                        name="slot" value="10" th:text="'Slot 10'"
+                        th:attr="name='betId', value=${betId}">10</button>
+            </form>
+
+            <form action="/spielen/11" method="get">
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="slot"
+                        th:classappend="${slotId >= 11 ? '' : 'disabled'}"
+                        th:disabled="${slotId < 11}"
+                        name="slot" value="11" th:text="'Slot 11'"
+                        th:attr="name='betId', value=${betId}">11</button>
+            </form>
+
+            <form action="/spielen/12" method="get">
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="slot"
+                        th:classappend="${slotId >= 12 ? '' : 'disabled'}"
+                        th:disabled="${slotId < 12}"
+                        name="slot" value="12" th:text="'Slot 12'"
+                        th:attr="name='betId', value=${betId}">12</button>
+            </form>
+        </div>
+
+        <div class="control-buttons">
+            <form th:action="@{/generate-random-numbers-all}" method="post">
+                <input type="hidden" name="betId" th:value="${betId}"/>
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="button">
+                    <img src="../resources/icons/dice-icon.png" alt="Zufall">
+                    <span>Zufall</span>
+                </button>
+            </form>
+            <form th:action="@{/clear-lotto}" method="post">
+                <input type="hidden" name="betId" th:value="${betId}"/>
+                <input type="hidden" name="communityId" th:value="${communityId}"/>
+                <button type="submit" class="button">
+                    <img src="../resources/icons/clear-icon.png" alt="Clear">
+                    <span>Löschen</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <form th:action="@{/submit}" method="post">
+
+        <input type="hidden" name="betId" th:value="${betId}"/>
+        <input type="hidden" name="communityId" th:value="${communityId}"/>
+        <div class="options-container">
+            <div class="superzahl-container">
+                <label for="superzahl">Wählen Sie Ihre Superzahl:</label>
+                <select id="superzahl" name="superNumber" class="superzahl-select">
+                    <option value="0" th:selected="${superNumber == 0}">0</option>
+                    <option value="1" th:selected="${superNumber == 1}">1</option>
+                    <option value="2" th:selected="${superNumber == 2}">2</option>
+                    <option value="3" th:selected="${superNumber == 3}">3</option>
+                    <option value="4" th:selected="${superNumber == 4}">4</option>
+                    <option value="5" th:selected="${superNumber == 5}">5</option>
+                    <option value="6" th:selected="${superNumber == 6}">6</option>
+                    <option value="7" th:selected="${superNumber == 7}">7</option>
+                    <option value="8" th:selected="${superNumber == 8}">8</option>
+                    <option value="9" th:selected="${superNumber == 9}">9</option>
+                </select>
+            </div>
+
+            <div class="duration-container">
+                <label for="duration">Dauertippscheine:</label>
+                <select id="duration" name="duration" onchange="submitDuration()">
+                    <option value="" th:text="'Keine Auswahl'" th:selected="${duration == null}"></option>
+                    <option value="MONTHLY" th:selected="${duration == 'MONTHLY'}">monatlich</option>
+                    <option value="SEMIANNUAL" th:selected="${duration == 'SEMIANNUAL'}">halbjährlich</option>
+                    <option value="ANNUALY" th:selected="${duration == 'ANNUALY'}">jährlich</option>
+                </select>
+            </div>
+
+            <script>
+                //couldnt find any better method to fetch the duration
+                function submitDuration() {
+                    const durationValue = document.getElementById('duration').value;
+
+                    const url = `/spielen/updateBetAmount?duration=${encodeURIComponent(durationValue)}`;
+
+                    fetch(url, { method: 'GET' })
+                        .then(response => {
+                            if (response.ok) {
+                                return response.json(); // parse JSON
+                            } else {
+                                console.error('Error updating bet amount');
+                            }
+                        })
+                        .then(betAmount => {
+                            if (betAmount != null) {
+                                // update bet amount
+                                const betAmountSpan = document.querySelector('.einsatz-container span');
+                                betAmountSpan.textContent = betAmount.toFixed(2);
+                                document.querySelector('input[name="betAmount"]').value = betAmount.toFixed(2);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }
+
+            </script>
+
+
+            <div class="einsatz-container">
+                Aktueller Einsatz: <span th:text="${betAmount}">0</span> €
+            </div>
+            <input type="hidden" name="betAmount" th:value="${betAmount}">
+
+            <div class="submit-button">
+                <button type="submit" class="button">
+                    <img src="../resources/icons/submit-icon.png" alt="Submit">
+                    <span>Senden</span>
+                </button>
+            </div>
+
+        </div>
+    </form>
+
+    <div th:if="${tooPoorError}" class="error">
+        <p th:text="${tooPoorError}"></p>
+    </div>
+
+    <div th:if="${tooLateError}" class="error">
+        <p th:text="${tooLateError}"></p>
+    </div>
+    
+    <div class="footer-text">
+        Wenn Sie sich für einen Dauertippschein entscheiden, nehmen Sie immer mit denselben Zahlen am Spiel teil. Die Zahlung erfolgt nur einmal.
+    </div>
+
+</div>
+</body>
+</html>
+

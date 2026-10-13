@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <title></title>
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+<div class="login-page">
+<div class="login-container">
+    <h2 class="login-header" th:text="#{register.userdata}">Nutzerdaten</h2>
+    <div class="login-form">
+
+    <form method="post" role="form" class="ui form" id="form" th:action="@{/register}" th:object="${registrationForm}">
+
+        <div class="ui negative message" th:if="${#fields.hasErrors('*')}">
+            <p>Einige Angaben sind nicht korrekt.</p>
+        </div>
+
+        <div class="field">
+            <label th:text="#{register.name}" for="name">Name</label>
+            <input id="name" name="name" th:field="*{name}" th:errorclass="fieldError" type="text" required="required" pattern="^[\w\s]+$"/><br/>
+            <div class="ui negative message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                <p>Der Benutzername darf nicht leer sein.</p>
+            </div>
+        </div>
+
+        <div class="field">
+            <label th:text="#{register.password}" for="password">Passwort</label>
+            <input id="password" name="password" th:field="*{password}" th:errorclass="fieldError" type="password"
+                   required="required" pattern="^[\w\s]+$"/><br/>
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Das Passwort darf
+                nicht leer sein.</p>
+        </div>
+
+        <!-- hier Bankaccount einfügen -->
+        <div class="field">
+            <label th:text="#{register.bankaccount}" for="initialBalance">Bankkonto</label>
+            <input id="initialBalance" name="initialBalance" th:field="*{initialBalance}" th:errorclass="fieldError" type="number" step="0.01" required="required"/><br/>
+            <div class="ui negative message" th:if="${#fields.hasErrors('initialBalance')}" th:errors="*{initialBalance}">
+                <p>Das Bankkonto darf nicht leer sein.</p>
+            </div>
+        </div>
+
+        <div class="field">
+            <label th:text="#{register.referralCode}" for="referralCode">ReferralCode</label>
+            <input id="referralCode" name="referralCode" th:field="*{referralCode}" th:errorclass="fieldError" type="text"/>
+            <div class="ui negative message" th:if="${#fields.hasErrors('referralCode')}" th:errors="*{referralCode}">
+                <p>Der Referral-Code ist ungültig oder nicht vorhanden.</p>
+            </div>
+        </div>
+
+        <button type="submit" class="login-button" th:text="#{register.submit}">Registrieren</button>
+    </form>
+
+</div>
+</div>
+</div>
+</body>
+</html>

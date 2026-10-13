@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <script src="https://kit.fontawesome.com/21997f2dea.js" crossorigin="anonymous"></script>
+    <title></title>
+</head>
+<body>
+<div th:replace="~{layout :: topbar}"></div>
+<div class="konto">
+    <div class="konto-overview">
+        <h1>Dein Konto!</h1>
+        <h2>Transaktionshistorie</h2>
+        <ul class="konto-history-container header">
+            <li class="konto-history-item header">
+                <div class="konto-history-field flex5">Transaktionsart</div>
+                <div class="konto-history-field flex3">Betrag</div>
+                <div class="konto-history-field flex3">Guthaben</div>
+                <div class="konto-history-field flex5">Datum</div>
+            </li>
+        </ul>
+        <ul class="konto-history-container item">
+            <li th:each="payment : ${payments}" class="konto-history-item">
+                <div class="konto-history-field flex5" th:text="${payment.type}"/>
+                <div class="konto-history-field flex3" th:text="${#numbers.formatDecimal(payment.amountAsString, 0, 2)}+ '€'"/>
+                <div class="konto-history-field flex3" th:text="${#numbers.formatDecimal(payment.balance, 0, 2)} + '€'"/>
+                <div class="konto-history-field flex5" th:text="${payment.dateTime}"/>
+
+            </li>
+        </ul>
+<!--        <h1>Dein Konto!</h1>-->
+<!--        <h2>My Transaction History</h2>-->
+<!--        <table class="table">-->
+<!--            <thead>-->
+<!--                <tr>-->
+<!--                    <th scope="col">Datum</th>-->
+<!--                    <th scope="col">Art/Type</th>-->
+<!--                    <th scope="col">betrag</th>-->
+<!--                    <th scrop="col">Guthaben</th>-->
+<!--                </tr>-->
+<!--            </thead>-->
+<!--            <ul class="community-dropdown">-->
+<!--                <tbody>-->
+<!--                    <tr th:each="payment : ${payments}">-->
+<!--                        <td th:text="${payment.dateTime}"/>-->
+<!--                        <td th:text="${payment.type}"/>-->
+<!--                        <td th:text="${payment.amountAsString}"/>-->
+<!--                        <td th:text="${payment.balance}"/>-->
+<!--                    </tr>-->
+<!--                </tbody>-->
+<!--            </ul>-->
+<!--        </table>-->
+<!--            <div class="filterData">-->
+<!--                <button class="filterData-button">Dieser Monat</button>-->
+<!--                <div class="filterData-content">-->
+<!--                    <p>October 2024</p></p>-->
+<!--                    <p>September 2024</p></p>-->
+<!--                    <p>Earlier...</p></p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--&gt;>>>>>> a6a3625b06bf0f177c913c2bcbc9854d2404c5c5-->
+    </div>
+    <div class="konto-overview">
+        <div class="konto-profile">
+            <div>
+                <i class="fa-solid fa-user fa-9xl"></i>
+            </div>
+            <div>
+                <h2>Benutzername:</h2>
+                <h2 th:text="${username}">username</h2>
+                <h2>Guthaben:</h2>
+                <h2 th:text="${#numbers.formatDecimal(balance, 0, 2)} + '€'">0</h2>
+            </div>
+        </div>
+        <div class="konto-transfer-money-layout">
+            <form th:object="${transferMoneyFormEinzahlen}" th:action="@{/konto/transfer}" method="post">
+                <input class="konto-transfer-money-input" type="number" placeholder="0€" step="0.01" min="0.01" required th:field="*{amount}"/>
+                <input type="hidden" th:field="*{transferMethod}">
+                <input class="konto-transfer-money-submit" type="submit" value="einzahlen">
+            </form>
+            
+            <form th:object="${transferMoneyFormAuszahlen}" th:action="@{/konto/transfer}" method="post">
+                <input class="konto-transfer-money-input" type="number" placeholder="0€" step="0.01" min="0.01" required th:field="*{amount}"/>
+                <input type="hidden" th:field="*{transferMethod}">
+                <input class="konto-transfer-money-submit" type="submit" value="auszahlen">
+            </form>
+        </div>
+
+        <!--Gutschein-Stuff-->
+        <div class="voucher">
+            <form th:action="@{/voucher/buy}" method="get">
+                <button type="submit" class="voucher-purchase-button">Gutschein kaufen</button>
+            </form>
+            <div class="voucher-redeem">
+            <form th:action="@{/voucher/redeem}" method="post">
+                <input type="text" name="voucherCode" placeholder="Bitte geben Sie hier Ihren Gutschein-Code ein" required />
+                <button type="submit" class="voucher-redeem-button">Gutschein einlösen</button>
+            </form>
+        </div>
+            <!-- Referat erstellen -->
+            <p>Erstellen Sie Ihren persönlichen Weiterempfehlungslink und verdienen an jedem neuen User mit:</p>
+            <div class="referral-create">
+                <form th:action="@{/voucher/referral/create}" method="get">
+                    <button type="submit" class="voucher-redeem-button">Code erstellen</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Erfolgsmeldung-->
+<div th:if="${successMessage != null}" class="popup-message" th:classappend=" ' success'">
+    <span th:text="${successMessage}"></span>
+</div>
+<!-- Errormeldung-->
+<div th:if="${errorMessage != null}" class="popup-message" th:classappend=" ' error'">
+    <span th:text="${errorMessage}"></span>
+</div>
+</body>
+</html>
